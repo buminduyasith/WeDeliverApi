@@ -21,7 +21,7 @@
                 "publish",
                 "${workspaceFolder}/wedeliver.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummarywe"
             ],
             "problemMatcher": "$msCompile",
             "group": {
