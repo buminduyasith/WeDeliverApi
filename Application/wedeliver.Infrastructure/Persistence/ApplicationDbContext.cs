@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Domain;
 using wedeliver.Domain.Common;
+using wedeliver.Domain.Entities;
 
 namespace wedeliver.Infrastructure.Persistence
 {
@@ -20,6 +21,7 @@ namespace wedeliver.Infrastructure.Persistence
         }
 
         public DbSet<Food> Foods { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

@@ -10,6 +10,7 @@ using wedeliver.Infrastructure.Persistence;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Infrastructure.Repositories;
 using wedeliver.Infrastructure.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace wedeliver.Infrastructure
 {
@@ -22,8 +23,14 @@ namespace wedeliver.Infrastructure
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-           
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+
+
 
             return services;
         }
