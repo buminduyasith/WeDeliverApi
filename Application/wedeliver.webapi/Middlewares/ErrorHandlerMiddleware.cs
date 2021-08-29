@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using wedeliver.Application.Exceptions;
 using wedeliver.Application.Wrapper;
 
-namespace wedeliver.webapi.Filters
+namespace wedeliver.webapi.Middlewares
 {
    
     public class ErrorHandlerMiddleware

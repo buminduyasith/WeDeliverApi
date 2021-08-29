@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using wedeliver.Application;
 using wedeliver.Infrastructure;
-using wedeliver.webapi.Filters;
+using wedeliver.webapi.Middlewares;
 
 namespace wedeliver.webapi
 {
