@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
 using wedeliver.Application.Features.Foods.Queries.GetFoodList;
+using wedeliver.Application.Features.Foods.ViewModels;
 
 namespace wedeliver.webapi.Controllers
 {
@@ -34,8 +35,8 @@ namespace wedeliver.webapi.Controllers
         }
 
         [HttpPost(Name = "AddFoodItem")]
-        //[ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<int>> CheckoutOrder([FromBody] AddFoodItemCommand command)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<FoodVM>> CheckoutOrder([FromBody] AddFoodItemCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
 using wedeliver.Application.Features.Foods.Commands.UpdateFoodItem;
-using wedeliver.Application.Features.Foods.Queries.GetFoodList;
+using wedeliver.Application.Features.Foods.ViewModels;
 using wedeliver.Domain;
 
 namespace wedeliver.Application.Mappings

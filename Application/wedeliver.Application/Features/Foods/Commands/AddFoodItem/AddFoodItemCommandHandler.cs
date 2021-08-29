@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
+using wedeliver.Application.Features.Foods.ViewModels;
 using wedeliver.Domain;
 
 namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
 {
-    public class AddFoodItemCommandHandler : IRequestHandler<AddFoodItemCommand, int>
+    public class AddFoodItemCommandHandler : IRequestHandler<AddFoodItemCommand, FoodVM>
 
     {
         private readonly IOrderRepository _orderRepository;
@@ -26,11 +27,12 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<int> Handle(AddFoodItemCommand request, CancellationToken cancellationToken)
+        public async Task<FoodVM> Handle(AddFoodItemCommand request, CancellationToken cancellationToken)
         {
             var fooditem = _mapper.Map<Food>(request);
             var item =  await _orderRepository.AddAsync(fooditem);
-            return item.Id;
+            var response = _mapper.Map<FoodVM>(item);
+            return response;
            
 
         }
