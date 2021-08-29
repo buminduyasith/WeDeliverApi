@@ -1,6 +1,4 @@
-﻿//using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,7 @@ using wedeliver.Domain.Common;
 
 namespace wedeliver.Infrastructure.Persistence
 {
-    public class ApplicationDbContext:IdentityDbContext   //DbContext
+    public class ApplicationDbContext:DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
