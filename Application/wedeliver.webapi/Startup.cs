@@ -39,10 +39,12 @@ namespace wedeliver.webapi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "wedeliver.webapi", Version = "v1" });
             });
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add<ApiExceptionFilter>();
-            });
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add<ApiExceptionFilter>();
+            //});
+
+            //services.AddTransient<ErrorHandlerMiddleware>();
 
             // var assembly = AppDomain.CurrentDomain.Load("wedeliver.Application");
             //services.AddMediatR(assembly);
@@ -66,6 +68,8 @@ namespace wedeliver.webapi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
