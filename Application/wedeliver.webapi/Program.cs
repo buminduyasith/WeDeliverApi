@@ -14,6 +14,17 @@ namespace wedeliver.webapi
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+
+            //CreateHostBuilder(args)
+            // .Build()
+            // .MigrateDatabase<ApplicationDbContext>((context, services) =>
+            // {
+            //     var logger = services.GetService<ILogger<OrderContextSeed>>();
+            //     OrderContextSeed
+            //         .SeedAsync(context, logger)
+            //         .Wait();
+            // })
+            // .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
