@@ -10,6 +10,7 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
 {
     public class AddFoodItemCommand:IRequest<FoodVM>
     {
+        public int RestaurantId { get; set; }
         public string Name { get; set; }
         public string Discription { get; set; }
         public decimal Price { get; set; }

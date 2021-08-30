@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum UserRoles
+    public enum RatingType
     {
-        SuperAdmin,
-        RestaurantAdmin,
-        PharmacyAdmin,
-        Rider,
-        Client,
-        FoodStoreAdmin
+        BADREVIEW,
+        GOODREVIEW
     }
 }

@@ -11,7 +11,7 @@ namespace wedeliver.webapi.Controllers.Users
    
     public class UsersController : BaseApiController
     {
-        [HttpPost(Name = "RestaurantAdminCreate")]
+        [HttpPost(Name = "FoodStoreAdminCreate")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> CheckoutOrder([FromBody] CreateRestaurantUserCommand command)
         {

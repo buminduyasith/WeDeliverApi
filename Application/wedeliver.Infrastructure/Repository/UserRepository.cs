@@ -44,7 +44,9 @@ namespace wedeliver.Infrastructure.Repository
             if (isCreated.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
-                var restaurantUser = new Restaurant {Name="test",Discription="test 1",City="matara",UserId=Guid.Parse(newUser.Id) };
+                ///Todo:
+                ///
+                var restaurantUser = new Restaurant {};
                 _dbContext.Restaurants.Add(restaurantUser);
                 await _dbContext.SaveChangesAsync();
                 return newUser;

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum UserRoles
+    public enum FoodCategory
     {
-        SuperAdmin,
-        RestaurantAdmin,
-        PharmacyAdmin,
-        Rider,
-        Client,
-        FoodStoreAdmin
+        Chinese,
+        Indian,
+        Bakery,
+        Pizza,
+        Burgers
     }
 }

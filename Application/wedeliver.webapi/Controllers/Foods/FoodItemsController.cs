@@ -17,10 +17,8 @@ namespace wedeliver.webapi.Controllers.Foods
         [HttpGet]
         public async Task<IActionResult> GetAllFoodItems()
         {
-          
             var query = new GetFoodListQuery();
             var result = await Mediator.Send(query);
-
             return Ok(result);
         }
 

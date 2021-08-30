@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum UserRoles
+    public enum Entity
     {
-        SuperAdmin,
-        RestaurantAdmin,
-        PharmacyAdmin,
-        Rider,
-        Client,
-        FoodStoreAdmin
+        pharmacy,
+        FoodStore
     }
 }
