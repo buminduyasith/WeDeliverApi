@@ -9,6 +9,8 @@ namespace wedeliver.Application.Contracts.Persisternce
     public interface IUserRepository
     {
         Task<IdentityUser> CreateUser(CreateRestaurantUserCommand command);
+
+        Task<IdentityUser> FindByEmailAsync(string email);
        // Task<IdentityUser> FindByEmailAsync(string email);
         //Task<AuthResult> GenerateJwtToken(IdentityUser user);
 

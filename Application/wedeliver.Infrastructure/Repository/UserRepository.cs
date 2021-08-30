@@ -9,6 +9,7 @@ using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Infrastructure.Persistence;
 using wedeliver.Domain.Entities;
+using wedeliver.Domain.Enums;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -42,7 +43,7 @@ namespace wedeliver.Infrastructure.Repository
 
             if (isCreated.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, "restaurant");
+                await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
                 var restaurantUser = new Restaurant {Name="test",Discription="test 1",City="matara",UserId=Guid.Parse(newUser.Id) };
                 _dbContext.Restaurants.Add(restaurantUser);
                 await _dbContext.SaveChangesAsync();
@@ -58,6 +59,11 @@ namespace wedeliver.Infrastructure.Repository
             }
         }
 
-        
+        public async Task<IdentityUser> FindByEmailAsync(string email)
+        {
+            var existingUser = await _userManager.FindByEmailAsync(email);
+
+            return existingUser;
+        }
     }
 }
