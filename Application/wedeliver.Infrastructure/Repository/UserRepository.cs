@@ -44,9 +44,26 @@ namespace wedeliver.Infrastructure.Repository
             if (isCreated.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
-                ///Todo:
-                ///
-                var restaurantUser = new Restaurant {};
+                
+                var restaurantUser = new Restaurant {
+                    Name=user.StoreName,
+                    OwnerName = user.OwnerName,
+                    Discription = user.Discription,
+                    FoodCategory = user.FoodCategory,
+                    Active=false,
+                    PersonalPhoneNumber = user.PersonalPhoneNumber,
+                    TelphoneNumber = user.TelphoneNumber,
+                    UserId = newUser.Id,
+                    Location = new Location
+                    {
+                        HouseNo=user.HouseNo,
+                        Province = user.Province,
+                        City = user.City,
+                        Street = user.Street,
+                        
+                    }
+                    
+                };
                 _dbContext.Restaurants.Add(restaurantUser);
                 await _dbContext.SaveChangesAsync();
                 return newUser;

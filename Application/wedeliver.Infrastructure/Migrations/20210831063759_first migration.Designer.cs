@@ -10,7 +10,7 @@ using wedeliver.Infrastructure.Persistence;
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210831054354_first migration")]
+    [Migration("20210831063759_first migration")]
     partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,7 +320,13 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonalPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelphoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")

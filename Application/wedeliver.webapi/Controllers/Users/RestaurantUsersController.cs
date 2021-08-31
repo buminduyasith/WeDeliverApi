@@ -9,7 +9,7 @@ using wedeliver.webapi.Controllers.Base;
 namespace wedeliver.webapi.Controllers.Users
 {
    
-    public class UsersController : BaseApiController
+    public class RestaurantUsersController : BaseApiController
     {
         [HttpPost(Name = "FoodStoreAdminCreate")]
         [ProducesResponseType((int)HttpStatusCode.OK)]

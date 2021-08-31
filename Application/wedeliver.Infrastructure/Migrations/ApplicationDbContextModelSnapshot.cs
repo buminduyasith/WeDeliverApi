@@ -318,7 +318,13 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonalPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelphoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
