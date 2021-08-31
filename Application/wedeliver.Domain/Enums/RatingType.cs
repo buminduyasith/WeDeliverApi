@@ -8,7 +8,7 @@ namespace wedeliver.Domain.Enums
 {
     public enum RatingType
     {
-        BADREVIEW,
-        GOODREVIEW
+        BADREVIEW=1,
+        GOODREVIEW=2
     }
 }

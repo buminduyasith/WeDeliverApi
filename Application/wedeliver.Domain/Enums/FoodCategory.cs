@@ -8,10 +8,10 @@ namespace wedeliver.Domain.Enums
 {
     public enum FoodCategory
     {
-        Chinese,
-        Indian,
-        Bakery,
-        Pizza,
-        Burgers
+        Chinese=1,
+        Indian=2,
+        Bakery=3,
+        Pizza=4,
+        Burgers=5
     }
 }

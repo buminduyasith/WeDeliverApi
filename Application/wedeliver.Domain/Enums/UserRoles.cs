@@ -8,11 +8,11 @@ namespace wedeliver.Domain.Enums
 {
     public enum UserRoles
     {
-        SuperAdmin,
-        RestaurantAdmin,
-        PharmacyAdmin,
-        Rider,
-        Client,
-        FoodStoreAdmin
+        SuperAdmin=1,
+        RestaurantAdmin=2,
+        PharmacyAdmin=3,
+        Rider=4,
+        Client=5,
+        FoodStoreAdmin=6
     }
 }
