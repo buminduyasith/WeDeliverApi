@@ -19,7 +19,7 @@ namespace wedeliver.Domain.Entities
         private int LocationId { get; set; }
         public Location Location { get; set; }
         public ICollection<Food> Foods { get; set; } = new List<Food>();
-        public FoodCategory FoodCategory { get; set; }
+        public FoodStoreCategory FoodCategory { get; set; }
 
 
 

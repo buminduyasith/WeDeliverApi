@@ -14,5 +14,7 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
         public string Name { get; set; }
         public string Discription { get; set; }
         public decimal Price { get; set; }
+        public string ImageUrl { get; set; }
+       
     }
 }

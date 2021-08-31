@@ -24,7 +24,7 @@ namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
         public string Province { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
-        public FoodCategory FoodCategory { get; set; }
+        public FoodStoreCategory FoodCategory { get; set; }
 
     }
 }
