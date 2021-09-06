@@ -22,13 +22,13 @@ namespace wedeliver.webapi.Controllers.Foods
             return Ok(result);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddFoodItem()
-        {
-            var query = new GetFoodListQuery();
-            var result = await Mediator.Send(query);
-            return Ok(result);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> AddFoodItem()
+        //{
+        //    var query = new GetFoodListQuery();
+        //    var result = await Mediator.Send(query);
+        //    return Ok(result);
+        //}
 
 
 
