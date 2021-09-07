@@ -8,6 +8,6 @@ namespace wedeliver.Domain.Enums
 {
     public enum OrderType
     {
-        Delivery=1
+        CashONDelivery=1
     }
 }
