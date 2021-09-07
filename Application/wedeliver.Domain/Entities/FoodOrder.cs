@@ -22,6 +22,7 @@ namespace wedeliver.Domain.Entities
         public Restaurant Restaurant { get; set; }
         public FoodOrderStatus FoodOrderStatus { get; set; }
         public OrderType OrderType { get; set; }
+        public string Note { get; set; }
 
     }
 }
