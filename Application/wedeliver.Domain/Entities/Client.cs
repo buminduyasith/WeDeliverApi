@@ -9,7 +9,7 @@ namespace wedeliver.Domain.Entities
 {
     public class Client: EntityBase
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
         public Location Location { get; set; }

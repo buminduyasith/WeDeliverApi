@@ -32,7 +32,7 @@ namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
 
         public Task<IdentityUser> Handle(CreateRestaurantUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.CreateUser(request);
+            var user = _userRepository.CreateRestaurantUser(request);
             // var u = _mapper.Map<RestaurantUserVM>(user);
             return user;
         }

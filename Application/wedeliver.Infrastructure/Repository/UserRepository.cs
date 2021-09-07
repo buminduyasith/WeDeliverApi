@@ -10,6 +10,7 @@ using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Infrastructure.Persistence;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
+using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -34,7 +35,7 @@ namespace wedeliver.Infrastructure.Repository
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext)); 
         }
 
-        public async Task<IdentityUser> CreateUser(CreateRestaurantUserCommand user)
+        public async Task<IdentityUser> CreateRestaurantUser(CreateRestaurantUserCommand user)
         {
            
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
@@ -83,6 +84,48 @@ namespace wedeliver.Infrastructure.Repository
             var existingUser = await _userManager.FindByEmailAsync(email);
 
             return existingUser;
+        }
+
+        public async Task CreateCustomerUser(CreateCustomerUserCommand user)
+        {
+            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
+            var isCreated = await _userManager.CreateAsync(newUser, user.Password);
+
+
+            if (isCreated.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
+
+                var client = new Client
+                {
+                    
+                    UserId = newUser.Id,
+                    FName = user.FName,
+                    LName = user.LName,
+                    PhoneNumber = user.PhoneNumber,
+                    Active = true,
+                    Location = new Location
+                    {
+                        HouseNo = user.HouseNo,
+                        Province = user.Province,
+                        City = user.City,
+                        Street = user.Street,
+
+                    }
+
+                };
+                _dbContext.Clients.Add(client);
+                await _dbContext.SaveChangesAsync();
+                return;
+
+            }
+
+            else
+            {
+                // TODO: what if user not created propely or something went wrong in the database
+
+                throw new Exception("user not created");
+            }
         }
     }
 }

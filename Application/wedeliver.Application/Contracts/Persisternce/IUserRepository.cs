@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 //using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 
@@ -8,7 +9,8 @@ namespace wedeliver.Application.Contracts.Persisternce
 {
     public interface IUserRepository
     {
-        Task<IdentityUser> CreateUser(CreateRestaurantUserCommand command);
+        Task<IdentityUser> CreateRestaurantUser(CreateRestaurantUserCommand command);
+        Task CreateCustomerUser(CreateCustomerUserCommand command);
 
         Task<IdentityUser> FindByEmailAsync(string email);
        // Task<IdentityUser> FindByEmailAsync(string email);
