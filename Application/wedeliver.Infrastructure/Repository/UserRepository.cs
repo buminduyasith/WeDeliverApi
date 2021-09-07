@@ -86,7 +86,7 @@ namespace wedeliver.Infrastructure.Repository
             return existingUser;
         }
 
-        public async Task CreateCustomerUser(CreateCustomerUserCommand user)
+        public async Task CreateCustomerUser(CreateRiderUserCommand user)
         {
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
