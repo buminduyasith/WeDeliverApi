@@ -11,7 +11,8 @@ using wedeliver.Domain.Enums;
 
 namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
 {
-    public class CreateRestaurantUserCommand:IRequest<IdentityUser>
+    //public class CreateRestaurantUserCommand : IRequest<IdentityUser>
+    public class CreateRestaurantUserCommand:IRequest
     {
         public string Email { get; set; }
         public string Password { get; set; }

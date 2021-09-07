@@ -13,7 +13,7 @@ using wedeliver.Application.Features.User.ViewModels;
 
 namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
 {
-    public class CreateRestaurantUserCommandHandler : IRequestHandler<CreateRestaurantUserCommand, IdentityUser>
+    public class CreateRestaurantUserCommandHandler : IRequestHandler<CreateRestaurantUserCommand, Unit>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -30,11 +30,11 @@ namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public Task<IdentityUser> Handle(CreateRestaurantUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateRestaurantUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.CreateRestaurantUser(request);
+            await _userRepository.CreateRestaurantUser(request);
             // var u = _mapper.Map<RestaurantUserVM>(user);
-            return user;
+            return await Task.FromResult(Unit.Value);
         }
     }
 }

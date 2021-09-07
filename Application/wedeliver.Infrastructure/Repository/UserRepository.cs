@@ -36,7 +36,7 @@ namespace wedeliver.Infrastructure.Repository
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext)); 
         }
 
-        public async Task<IdentityUser> CreateRestaurantUser(CreateRestaurantUserCommand user)
+        public async Task CreateRestaurantUser(CreateRestaurantUserCommand user)
         {
            
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
@@ -68,7 +68,7 @@ namespace wedeliver.Infrastructure.Repository
                 };
                 _dbContext.Restaurants.Add(restaurantUser);
                 await _dbContext.SaveChangesAsync();
-                return newUser;
+                return;
 
             }
 
