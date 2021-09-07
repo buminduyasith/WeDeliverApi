@@ -11,7 +11,7 @@ using wedeliver.Application.Contracts.Persisternce;
 
 namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
 {
-    public class CreateCustomerUserCommandHandler : IRequestHandler<CreateRiderUserCommand, Unit>
+    public class CreateCustomerUserCommandHandler : IRequestHandler<CreateCustomerUserCommand, Unit>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<Unit> Handle(CreateRiderUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateCustomerUserCommand request, CancellationToken cancellationToken)
         {
             await  _userRepository.CreateCustomerUser(request);
 

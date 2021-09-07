@@ -11,6 +11,7 @@ using wedeliver.Infrastructure.Persistence;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
+using wedeliver.Application.Features.User.Commands.CreateRiderUser;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -86,7 +87,7 @@ namespace wedeliver.Infrastructure.Repository
             return existingUser;
         }
 
-        public async Task CreateCustomerUser(CreateRiderUserCommand user)
+        public async Task CreateCustomerUser(CreateCustomerUserCommand user)
         {
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
@@ -126,6 +127,11 @@ namespace wedeliver.Infrastructure.Repository
 
                 throw new Exception("user not created");
             }
+        }
+
+        public Task CreateRiderrUser(CreateRiderUserCommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }

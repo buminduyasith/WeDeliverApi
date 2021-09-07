@@ -10,10 +10,10 @@ using wedeliver.Application.Contracts.Persisternce;
 
 namespace wedeliver.Application.Features.User.Commands.CreateRiderUser
 {
-    public class CreateRestaurantUserCommandValidator:AbstractValidator<CreateRestaurantUserCommand>
+    public class CreateRiderUserCommandValidator : AbstractValidator<CreateRiderUserCommand>
     {
         private readonly IUserRepository _userRepository;
-        public CreateRestaurantUserCommandValidator(IUserRepository userRepository)
+        public CreateRiderUserCommandValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 

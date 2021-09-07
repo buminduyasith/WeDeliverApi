@@ -14,15 +14,15 @@ using wedeliver.Application.Features.User.ViewModels;
 
 namespace wedeliver.Application.Features.User.Commands.CreateRiderUser
 {
-    public class CreateRestaurantUserCommandHandler : IRequestHandler<CreateRiderUserCommand, Unit>
+    public class CreateRiderUserCommandHandler : IRequestHandler<CreateRiderUserCommand, Unit>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<CreateRestaurantUserCommandHandler> _logger;
+        private readonly ILogger<CreateRiderUserCommandHandler> _logger;
       
-        public CreateRestaurantUserCommandHandler(IUserRepository userRepository,
+        public CreateRiderUserCommandHandler(IUserRepository userRepository,
            
-            IMapper mapper, ILogger<CreateRestaurantUserCommandHandler> logger)
+            IMapper mapper, ILogger<CreateRiderUserCommandHandler> logger)
 
         {
 
@@ -33,8 +33,8 @@ namespace wedeliver.Application.Features.User.Commands.CreateRiderUser
 
         public async Task<Unit> Handle(CreateRiderUserCommand request, CancellationToken cancellationToken)
         {
-            await  _userRepository.CreateRiderrUser(request);
-          
+            await _userRepository.CreateRiderrUser(request);
+
             return await Task.FromResult(Unit.Value);
         }
     }

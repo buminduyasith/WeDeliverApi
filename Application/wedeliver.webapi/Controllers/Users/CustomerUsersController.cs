@@ -15,7 +15,7 @@ namespace wedeliver.webapi.Controllers.Users
         [HttpPost(Name = "CustomerCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<MediatR.Unit>> CheckoutOrder([FromBody] CreateRiderUserCommand command)
+        public async Task<ActionResult<MediatR.Unit>> CheckoutOrder([FromBody] CreateCustomerUserCommand command)
         {
             return await Mediator.Send(command);
            // return Ok(x);

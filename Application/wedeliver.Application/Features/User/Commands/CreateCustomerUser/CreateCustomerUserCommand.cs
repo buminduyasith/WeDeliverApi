@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
 {
-    public class CreateRiderUserCommand:IRequest
+    public class CreateCustomerUserCommand:IRequest
     {
         public string Email { get; set; }
         public string Password { get; set; }
