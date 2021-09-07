@@ -129,9 +129,48 @@ namespace wedeliver.Infrastructure.Repository
             }
         }
 
-        public Task CreateRiderrUser(CreateRiderUserCommand command)
+        public async Task CreateRiderrUser(CreateRiderUserCommand user)
         {
-            throw new NotImplementedException();
+            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
+            var isCreated = await _userManager.CreateAsync(newUser, user.Password);
+
+
+            if (isCreated.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
+
+                var rider = new Rider
+                {
+
+                    UserId = newUser.Id,
+                    FName = user.FName,
+                    LName = user.LName,
+                    PersonalPhoneNumber = user.PersonalPhoneNumber,
+                    DrivingLicenseUrl=user.DrivingLicenseUrl,
+                    ProfilePictureUrl = user.ProfilePictureUrl,
+                    Active = true,
+                    Location = new Location
+                    {
+                        HouseNo = user.HouseNo,
+                        Province = user.Province,
+                        City = user.City,
+                        Street = user.Street,
+
+                    }
+
+                };
+                _dbContext.Riders.Add(rider);
+                await _dbContext.SaveChangesAsync();
+                return;
+
+            }
+
+            else
+            {
+                // TODO: what if user not created propely or something went wrong in the database
+
+                throw new Exception("user not created");
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace wedeliver.Infrastructure.Persistence
         public DbSet<Client> Clients { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<RestaurantRating> RestaurantRatings { get; set; }
+        public DbSet<Rider> Riders { get; set; }
 
 
 
