@@ -16,21 +16,22 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
     public class AddFoodItemCommandHandler : IRequestHandler<AddFoodItemCommand, FoodVM>
 
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<AddFoodItemCommandHandler> _logger;
-        public AddFoodItemCommandHandler(IOrderRepository orderRepository, IMapper mapper, ILogger<AddFoodItemCommandHandler> logger)
+        public AddFoodItemCommandHandler(IFoodRepository foodRepository, IMapper mapper, ILogger<AddFoodItemCommandHandler> logger)
         
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _foodRepository = foodRepository ?? throw new ArgumentNullException(nameof(foodRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+           
         }
 
         public async Task<FoodVM> Handle(AddFoodItemCommand request, CancellationToken cancellationToken)
         {
             var fooditem = _mapper.Map<Food>(request);
-            var item =  await _orderRepository.AddAsync(fooditem);
+            var item =  await _foodRepository.AddAsync(fooditem);
             var response = _mapper.Map<FoodVM>(item);
             return response;
            
