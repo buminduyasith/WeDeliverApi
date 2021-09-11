@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace wedeliver.Infrastructure.Migrations
 {
-    public partial class firstmigration : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,6 +56,7 @@ namespace wedeliver.Infrastructure.Migrations
                     Province = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
@@ -177,7 +178,7 @@ namespace wedeliver.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationId = table.Column<int>(type: "int", nullable: true),
@@ -198,6 +199,34 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pharmacy",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TelphoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PersonalPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationId1 = table.Column<int>(type: "int", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pharmacy", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pharmacy_Locations_LocationId1",
+                        column: x => x.LocationId1,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Restaurants",
                 columns: table => new
                 {
@@ -211,6 +240,9 @@ namespace wedeliver.Infrastructure.Migrations
                     PersonalPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationId1 = table.Column<int>(type: "int", nullable: true),
                     FoodCategory = table.Column<int>(type: "int", nullable: false),
+                    ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoverPictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StoreHours = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
@@ -224,6 +256,66 @@ namespace wedeliver.Infrastructure.Migrations
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Riders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PersonalPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationId1 = table.Column<int>(type: "int", nullable: true),
+                    ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DrivingLicenseUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Riders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Riders_Locations_LocationId1",
+                        column: x => x.LocationId1,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    EntitieType = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    RatingType = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ratings_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,32 +345,117 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RestaurantRatings",
+                name: "FoodOrder",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    Qty = table.Column<int>(type: "int", nullable: false),
+                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    RiderId = table.Column<int>(type: "int", nullable: false),
                     RestaurantId = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    RatingType = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FoodOrderStatus = table.Column<int>(type: "int", nullable: false),
+                    OrderType = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RestaurantRatings", x => x.Id);
+                    table.PrimaryKey("PK_FoodOrder", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RestaurantRatings_Clients_ClientId",
-                        column: x => x.ClientId,
+                        name: "FK_FoodOrder_Clients_ClientID",
+                        column: x => x.ClientID,
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RestaurantRatings_Restaurants_RestaurantId",
+                        name: "FK_FoodOrder_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Riders_RiderId",
+                        column: x => x.RiderId,
+                        principalTable: "Riders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MedicineOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedsDiscription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrescriptionUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    PharmacyID = table.Column<int>(type: "int", nullable: false),
+                    RiderId = table.Column<int>(type: "int", nullable: false),
+                    MedicineOrderStatus = table.Column<int>(type: "int", nullable: false),
+                    BillURl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderType = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicineOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MedicineOrders_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MedicineOrders_Pharmacy_PharmacyID",
+                        column: x => x.PharmacyID,
+                        principalTable: "Pharmacy",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MedicineOrders_Riders_RiderId",
+                        column: x => x.RiderId,
+                        principalTable: "Riders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodOrderDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Qty = table.Column<int>(type: "int", nullable: false),
+                    FoodId = table.Column<int>(type: "int", nullable: false),
+                    FoodOrderId = table.Column<int>(type: "int", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodOrderDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodOrderDetails_FoodOrder_FoodOrderId",
+                        column: x => x.FoodOrderId,
+                        principalTable: "FoodOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FoodOrderDetails_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -328,23 +505,73 @@ namespace wedeliver.Infrastructure.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_ClientID",
+                table: "FoodOrder",
+                column: "ClientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_RestaurantId",
+                table: "FoodOrder",
+                column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_RiderId",
+                table: "FoodOrder",
+                column: "RiderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrderDetails_FoodId",
+                table: "FoodOrderDetails",
+                column: "FoodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrderDetails_FoodOrderId",
+                table: "FoodOrderDetails",
+                column: "FoodOrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Foods_RestaurantId",
                 table: "Foods",
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RestaurantRatings_ClientId",
-                table: "RestaurantRatings",
+                name: "IX_MedicineOrders_ClientID",
+                table: "MedicineOrders",
+                column: "ClientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicineOrders_PharmacyID",
+                table: "MedicineOrders",
+                column: "PharmacyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicineOrders_RiderId",
+                table: "MedicineOrders",
+                column: "RiderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pharmacy_LocationId1",
+                table: "Pharmacy",
+                column: "LocationId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_ClientId",
+                table: "Ratings",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RestaurantRatings_RestaurantId",
-                table: "RestaurantRatings",
-                column: "RestaurantId");
+                name: "IX_Ratings_IdentityUserId",
+                table: "Ratings",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_LocationId1",
                 table: "Restaurants",
+                column: "LocationId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Riders_LocationId1",
+                table: "Riders",
                 column: "LocationId1");
         }
 
@@ -366,19 +593,34 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Foods");
+                name: "FoodOrderDetails");
 
             migrationBuilder.DropTable(
-                name: "RestaurantRatings");
+                name: "MedicineOrders");
+
+            migrationBuilder.DropTable(
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "FoodOrder");
+
+            migrationBuilder.DropTable(
+                name: "Foods");
+
+            migrationBuilder.DropTable(
+                name: "Pharmacy");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Riders");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");

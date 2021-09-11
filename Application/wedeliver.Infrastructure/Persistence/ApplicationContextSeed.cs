@@ -8,14 +8,14 @@ using wedeliver.Domain;
 
 namespace wedeliver.Infrastructure.Persistence
 {
-    public class OrderContextSeed
+    public class ApplicationContextSeed
     {
-        public static async Task SeedAsync(ApplicationDbContext orderContext, ILogger<OrderContextSeed> logger)
+        public static async Task SeedAsync(ApplicationDbContext applicationContextSeed, ILogger<ApplicationContextSeed> logger)
         {
-            if (!orderContext.Foods.Any())
+            if (!applicationContextSeed.Foods.Any())
             {
-                orderContext.Foods.AddRange(GetPreconfiguredOrders());
-                await orderContext.SaveChangesAsync();
+                applicationContextSeed.Foods.AddRange(GetPreconfiguredOrders());
+                await applicationContextSeed.SaveChangesAsync();
                 logger.LogInformation("Seed database associated with context {DbContextName}", typeof(ApplicationDbContext).Name);
             }
         }

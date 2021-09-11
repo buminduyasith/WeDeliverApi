@@ -8,7 +8,10 @@ namespace wedeliver.Domain.Enums
 {
     public enum Entity
     {
-        pharmacy,
-        FoodStore
+        PHARMACY=1,
+        FOODSTORE =2,
+        CLIENT=3,
+        RIDER=4,
+        RESTAURANT=5
     }
 }

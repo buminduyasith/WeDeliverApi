@@ -39,7 +39,8 @@ namespace wedeliver.Infrastructure.Repository
         public async Task CreateRestaurantUser(CreateRestaurantUserCommand user)
         {
            
-            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
+
+            IdentityUser newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
             
 

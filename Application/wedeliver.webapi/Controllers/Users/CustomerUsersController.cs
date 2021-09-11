@@ -13,10 +13,11 @@ namespace wedeliver.webapi.Controllers.Users
     public class CustomerUsersController : BaseApiController
     {
         [HttpPost(Name = "CustomerCreate")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<MediatR.Unit>> CheckoutOrder([FromBody] CreateCustomerUserCommand command)
         {
+          
             return await Mediator.Send(command);
            // return Ok(x);
            

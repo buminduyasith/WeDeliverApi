@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,19 @@ namespace wedeliver.Infrastructure.Persistence
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<RestaurantRating> RestaurantRatings { get; set; }
         public DbSet<Rider> Riders { get; set; }
+        public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<FoodOrder> FoodOrder { get; set; }
+        public DbSet<FoodOrderDetails> FoodOrderDetails { get; set; }
+        public DbSet<MedicineOrder> MedicineOrders { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
+           
+
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
