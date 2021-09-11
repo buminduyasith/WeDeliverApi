@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -22,14 +23,19 @@ namespace wedeliver.webapi.Controllers.Foods
             var result = await Mediator.Send(query);
             return Ok(result);
         }
+
+
       
 
         [HttpGet("{id}", Name = "GetFoodItemById")]
-        public async Task<IActionResult> GetFoodItemById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FoodVM>> GetFoodItemById(int id)
         {
-
-            //var result = await Mediator.Send(getFoodByIdQuery);
-            return Ok(id);
+            var getFoodByIdQuery = new GetFoodByIdQuery(id);
+            var result = await Mediator.Send(getFoodByIdQuery);
+            if (result is null) return NotFound();
+            return Ok(result);
         }
        
         [HttpPost]
