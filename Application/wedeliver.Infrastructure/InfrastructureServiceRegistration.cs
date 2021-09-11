@@ -23,6 +23,7 @@ namespace wedeliver.Infrastructure
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
+using wedeliver.Application.Features.Foods.Queries.GetFoodById;
 using wedeliver.Application.Features.Foods.Queries.GetFoodList;
 using wedeliver.Application.Features.Foods.ViewModels;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
@@ -21,7 +22,16 @@ namespace wedeliver.webapi.Controllers.Foods
             var result = await Mediator.Send(query);
             return Ok(result);
         }
+      
 
+        [HttpGet("{id}", Name = "GetFoodItemById")]
+        public async Task<IActionResult> GetFoodItemById(int id)
+        {
+
+            //var result = await Mediator.Send(getFoodByIdQuery);
+            return Ok(id);
+        }
+       
         [HttpPost]
         public async Task<IActionResult> AddFoodItem(AddFoodItemCommand addFoodItemCommand)
         {
