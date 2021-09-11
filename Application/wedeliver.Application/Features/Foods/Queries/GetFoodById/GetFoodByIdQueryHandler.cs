@@ -7,23 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Features.Foods.ViewModels;
 
 namespace wedeliver.Application.Features.Foods.Queries.GetFoodById
 {
     class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, FoodVM>
     {
-        //private readonly IOrderRepository _orderRepository;
-        //private readonly IMapper _mapper;
+        private readonly IFoodRepository _foodRepository;
+        private readonly IMapper _mapper;
 
-        //public GetFoodByIdQueryHandler(IOrderRepository orderRepository, IMapper mapper)
-        //{
-        //    _orderRepository = orderRepository;
-        //    _mapper = mapper;
-        //}
-        //public Task<FoodVM> Handle(GetFoodByIdQuery request, CancellationToken cancellationToken)
-        //{
+        public GetFoodByIdQueryHandler(IFoodRepository foodRepository, IMapper mapper)
+        {
+            _foodRepository = foodRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<FoodVM> Handle(GetFoodByIdQuery request, CancellationToken cancellationToken)
+        {
             
-        //}
+            var food = await _foodRepository.GetByIdAsync(request.Id);
+            var fooditemDTO = _mapper.Map<FoodVM>(food);
+            return fooditemDTO;
+        }
     }
 }
