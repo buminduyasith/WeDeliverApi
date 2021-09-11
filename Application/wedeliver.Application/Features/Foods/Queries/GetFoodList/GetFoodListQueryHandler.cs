@@ -14,12 +14,12 @@ namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
 {
     class GetFoodListQueryHandler : IRequestHandler<GetFoodListQuery, List<FoodVM>>
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
 
-        public GetFoodListQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetFoodListQueryHandler(IFoodRepository foodRepository, IMapper mapper)
         {
-            _orderRepository = orderRepository;
+            _foodRepository = foodRepository;
             _mapper = mapper;
         }
 
@@ -32,7 +32,7 @@ namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
             //      new Food(){Name="test2",Discription="test dis 2",Price=270.45},
 
             //};
-            var foods = await _orderRepository.GetAllAsync();
+            var foods = await _foodRepository.GetAllAsync();
             var fooditemsDTO = _mapper.Map<List<FoodVM>>(foods);
             return fooditemsDTO;
         }
