@@ -14,7 +14,7 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("please name is required")
                 .NotNull()
-                .MaximumLength(20).WithMessage("name should have less than 20 characters");
+                .MaximumLength(100).WithMessage("name should have less than 20 characters");
 
             RuleFor(p => p.Price)
                 .NotEmpty().WithMessage("price is required")
