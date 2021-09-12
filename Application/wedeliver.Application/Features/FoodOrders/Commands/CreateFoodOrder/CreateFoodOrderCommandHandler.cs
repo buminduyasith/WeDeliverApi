@@ -63,7 +63,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
 
             //check client is exist
 
-
+            var orderNo = "WD" + DateTime.Now.ToString("yyyyddMMhmm");
             var foodOrder = new FoodOrder
             {
                 ClientID = request.ClientID,
@@ -74,7 +74,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
                 OrderType = request.OrderType,
                 RestaurantId = request.RestaurantId,
                 Total = totalPrice,
-                OrderNo = Guid.NewGuid().ToString(),
+                OrderNo = orderNo,
 
             };
 

@@ -21,8 +21,4 @@
     <ProjectReference Include="..\wedeliver.Domain\wedeliver.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\FoodOrders\Queries\" />
-  </ItemGroup>
-
 </Project>

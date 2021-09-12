@@ -28,8 +28,8 @@ namespace wedeliver.Application.Mappings
             CreateMap<FoodOrder, FoodOrderVM>()
              .ForMember(dest => dest.RestaurantName, opt => opt.MapFrom(src => $"{src.Restaurant.Name} resname"))
              .ForMember(dest => dest.TelphoneNumber, opt => opt.MapFrom(src => src.Restaurant.TelphoneNumber));
-              
 
+            CreateMap<FoodOrder, FoodOrderBackOfficeVM>().ReverseMap();
 
 
 
