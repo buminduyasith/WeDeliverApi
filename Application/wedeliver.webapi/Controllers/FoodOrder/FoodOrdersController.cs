@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using wedeliver.Application.Features.FoodOrder.Commands.CreateFoodOrder;
+using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using wedeliver.webapi.Controllers.Base;
 
 namespace wedeliver.webapi.Controllers.FoodOrder

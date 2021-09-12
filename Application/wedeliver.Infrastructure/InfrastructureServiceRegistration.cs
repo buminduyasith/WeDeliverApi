@@ -26,11 +26,14 @@ namespace wedeliver.Infrastructure
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IFoodOrderRepository, FoodOrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFoodOrderDetailsRepository, FoodOrderDetailsRepository>();
+
+            
 
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             // .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            
+
 
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
