@@ -80,12 +80,26 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
 
             var createdFoodOrder =  await _foodOrderRepository.AddAsync(foodOrder);
 
+        
+
+           
+
+
+            _logger.LogInformation("createdFoodOrder", createdFoodOrder.ToString());
+
 
 
             var returnFoodOrder  = _mapper.Map<FoodOrderVM>(createdFoodOrder);
 
+            var restaurant = await _foodOrderRepository.GetRestaurantDetails(request.RestaurantId);
 
-         
+            returnFoodOrder.RestaurantName = restaurant.Name;
+            returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
+
+
+
+
+
             return returnFoodOrder;
         }
     }

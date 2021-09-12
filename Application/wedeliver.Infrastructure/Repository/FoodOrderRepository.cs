@@ -19,25 +19,15 @@ namespace wedeliver.Infrastructure.Repository
         {
         }
 
-        public async Task<FoodOrder> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand,FoodOrder foodOrder)
+        public Task<FoodOrder> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand, FoodOrder foodOrder)
         {
-            var list = createFoodOrderCommand.ItemList;
-            var totalPrice = 0.00;
-
-            foreach (var item in list)
-            {
-               var foodItem = await  _dbContext.Foods.Where(food => food.Id == item.FoodId).FirstOrDefaultAsync();
-                totalPrice += foodItem.Price;
-            }
-
-
-            foodOrder.Total = totalPrice;
-            //var CreatedFooditem = await AddAsync(foodOrder);
-            //var orderList = await _dbContext.FoodOrder
-            //                        .Where(o => o.UserName == userName)
-            //                        .ToListAsync();
-            return foodOrder;
+            throw new NotImplementedException();
         }
 
+        public async Task<Restaurant> GetRestaurantDetails(int id)
+        {
+            var restaurant =await  _dbContext.Restaurants.Where(res => res.Id == id).FirstOrDefaultAsync();
+            return restaurant;
+        }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using wedeliver.Application;
 using wedeliver.Infrastructure;
@@ -38,6 +39,9 @@ namespace wedeliver.webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "wedeliver.webapi", Version = "v1" });
             });
+
+            services.AddControllers().AddJsonOptions(x =>
+                                        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             //services.AddMvc(options =>
             //{

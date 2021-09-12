@@ -23,11 +23,16 @@ namespace wedeliver.Application.Mappings
             CreateMap<Food, UpdateFoodItemCommand>().ReverseMap();
             CreateMap<CreateFoodOrderCommand,FoodOrder >().ReverseMap();
             CreateMap<FoodOrder,CreateFoodOrderCommand>().ReverseMap();
-            CreateMap<FoodOrderVM, FoodOrder>().ReverseMap();
+            //CreateMap<FoodOrderVM, FoodOrder>().ReverseMap();
 
-            //CreateMap<Author, AuthorDto>()
-            // .ForMember(dest => dest.Address,
-            // opt => opt.MapFrom(src => $"{src.AddressNo}, {src.Street}, {src.City}"));
+            CreateMap<FoodOrder, FoodOrderVM>()
+             .ForMember(dest => dest.RestaurantName, opt => opt.MapFrom(src => $"{src.Restaurant.Name} resname"))
+             .ForMember(dest => dest.TelphoneNumber, opt => opt.MapFrom(src => src.Restaurant.TelphoneNumber));
+              
+
+
+
+
 
         }
     }

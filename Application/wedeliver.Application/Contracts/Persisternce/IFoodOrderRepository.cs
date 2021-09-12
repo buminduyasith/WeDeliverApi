@@ -11,5 +11,6 @@ namespace wedeliver.Application.Contracts.Persisternce
     public interface IFoodOrderRepository:IAsyncRepository<FoodOrder>
     {
         Task<FoodOrder> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand, FoodOrder foodOrder);
+        Task<Restaurant> GetRestaurantDetails(int id);
     }
 }
