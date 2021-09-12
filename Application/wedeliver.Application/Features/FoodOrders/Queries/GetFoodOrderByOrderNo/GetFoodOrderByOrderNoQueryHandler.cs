@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
 
-namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderById
+namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByOrderNo
 {
-    public class GetFoodOrderByOrderNoQueryHandler : IRequestHandler<GetFoodOrderByRestaurantIdQuery, FoodOrderVM>
+    public class GetFoodOrderByRestaurantIdQueryHandler : IRequestHandler<GetFoodOrderByOrderNoQuery, FoodOrderVM>
     {
         private readonly IFoodOrderRepository _foodOrderRepository;
         private readonly IFoodOrderDetailsRepository _foodOrderDetailsRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetFoodOrderByOrderNoQueryHandler> _logger;
+        private readonly ILogger<GetFoodOrderByRestaurantIdQueryHandler> _logger;
 
-        public GetFoodOrderByOrderNoQueryHandler(IFoodOrderRepository foodOrderRepository,
+        public GetFoodOrderByRestaurantIdQueryHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
-            IMapper mapper, ILogger<GetFoodOrderByOrderNoQueryHandler> logger,
+            IMapper mapper, ILogger<GetFoodOrderByRestaurantIdQueryHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository)
 
 
@@ -36,10 +36,10 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderById
 
         }
 
-        public async Task<FoodOrderVM> Handle(GetFoodOrderByRestaurantIdQuery request, CancellationToken cancellationToken)
+        public async Task<FoodOrderVM> Handle(GetFoodOrderByOrderNoQuery request, CancellationToken cancellationToken)
         {
 
-            var order = await _foodOrderRepository.GetByIdAsync(request.Id);
+            var order = await _foodOrderRepository.GetOrderByOrderNo(request.OrderNO);
             var fooditemDTO = _mapper.Map<FoodOrderVM>(order);
             return fooditemDTO;
         }

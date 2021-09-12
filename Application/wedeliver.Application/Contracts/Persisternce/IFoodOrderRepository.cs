@@ -12,5 +12,7 @@ namespace wedeliver.Application.Contracts.Persisternce
     {
         Task<FoodOrder> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand, FoodOrder foodOrder);
         Task<Restaurant> GetRestaurantDetails(int id);
+        Task<FoodOrder> GetOrderByOrderNo(string orderNo);
+        Task<FoodOrder> GetOrdersByRestaurantId(int restaurantId);
     }
 }
