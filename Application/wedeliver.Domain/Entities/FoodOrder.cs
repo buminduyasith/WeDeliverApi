@@ -16,8 +16,6 @@ namespace wedeliver.Domain.Entities
         public int ClientID { get; set; }
         public Client Client { get; set; }
         public ICollection<FoodOrderDetails> ItemList { get; set; } = new List<FoodOrderDetails>();
-        public int RiderId { get; set; }
-        public Rider Rider { get; set; }
         public int RestaurantId { get; set; }
         public Restaurant Restaurant { get; set; }
         public FoodOrderStatus FoodOrderStatus { get; set; }
