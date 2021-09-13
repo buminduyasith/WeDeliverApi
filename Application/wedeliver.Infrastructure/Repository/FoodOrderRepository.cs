@@ -24,6 +24,16 @@ namespace wedeliver.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
+        public Task<FoodOrder> GetOrderByOrderNo(string orderNo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<FoodOrder> GetOrdersByRestaurantId(int restaurantId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Restaurant> GetRestaurantDetails(int id)
         {
             var restaurant =await  _dbContext.Restaurants.Where(res => res.Id == id).FirstOrDefaultAsync();

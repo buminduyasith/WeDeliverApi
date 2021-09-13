@@ -7,14 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Domain;
 using wedeliver.Domain.Common;
 using wedeliver.Domain.Entities;
 
 namespace wedeliver.Infrastructure.Persistence
 {
-    public class ApplicationDbContext:IdentityDbContext
-        //DbContext
+    public class ApplicationDbContext:IdentityDbContext, IApplicationDbContext
+    //DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
