@@ -19,7 +19,7 @@ namespace wedeliver.Domain
         public string ImageUrl { get; set; }
         public int RestaurantId { get; set; }
 
-        [JsonIgnore]
+       // [JsonIgnore]
         public Restaurant Restaurant { get; set; }
 
 

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using wedeliver.Application.Features.Foods.ViewModels;
+using wedeliver.Application.ViewModels;
+
 
 namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
 {

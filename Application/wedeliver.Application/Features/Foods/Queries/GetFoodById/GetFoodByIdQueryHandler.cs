@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
-using wedeliver.Application.Features.Foods.ViewModels;
+using wedeliver.Application.ViewModels;
 
 namespace wedeliver.Application.Features.Foods.Queries.GetFoodById
 {

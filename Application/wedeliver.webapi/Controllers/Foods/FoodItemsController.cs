@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
 using wedeliver.Application.Features.Foods.Queries.GetFoodById;
 using wedeliver.Application.Features.Foods.Queries.GetFoodList;
-using wedeliver.Application.Features.Foods.ViewModels;
+using wedeliver.Application.ViewModels;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 using wedeliver.webapi.Controllers.Base;
 

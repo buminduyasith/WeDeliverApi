@@ -8,7 +8,7 @@ using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
 using wedeliver.Application.Features.Foods.Commands.UpdateFoodItem;
-using wedeliver.Application.Features.Foods.ViewModels;
+using wedeliver.Application.ViewModels;
 using wedeliver.Domain;
 using wedeliver.Domain.Entities;
 
@@ -24,6 +24,7 @@ namespace wedeliver.Application.Mappings
             CreateMap<CreateFoodOrderCommand,FoodOrder >().ReverseMap();
             CreateMap<FoodOrder,CreateFoodOrderCommand>().ReverseMap();
             //CreateMap<FoodOrderVM, FoodOrder>().ReverseMap();
+            CreateMap<FoodOrderDetails, FoodOrderDetailVM>().ReverseMap();
 
             CreateMap<FoodOrder, FoodOrderVM>()
              .ForMember(dest => dest.RestaurantName, opt => opt.MapFrom(src => $"{src.Restaurant.Name} resname"))

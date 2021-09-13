@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wedeliver.Application.Features.Foods.ViewModels
+namespace wedeliver.Application.ViewModels
 {
     public class FoodVM
     {
@@ -12,6 +12,8 @@ namespace wedeliver.Application.Features.Foods.ViewModels
         public string Name { get; set; }
         public string Discription { get; set; }
         public double Price { get; set; }
+        public string ImageUrl { get; set; }
+        public int RestaurantId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
     }

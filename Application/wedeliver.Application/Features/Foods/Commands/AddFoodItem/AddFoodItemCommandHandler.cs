@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
-using wedeliver.Application.Features.Foods.ViewModels;
+using wedeliver.Application.ViewModels;
 using wedeliver.Domain;
 
 namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
