@@ -11,6 +11,7 @@ namespace wedeliver.Application.Features.FoodOrders.ViewModels
 {
     public class FoodOrderRestaurantVM
     {
+        public int Id { get; set; }
         public string OrderNo { get; set; }
         public double Total { get; set; }
         public int Qty { get; set; }
