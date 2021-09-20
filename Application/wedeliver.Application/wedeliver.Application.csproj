@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\FoodOrders\Queries\GetAllFoodOrdersByClient\" />
     <Folder Include="Features\Foods\ViewModels\" />
   </ItemGroup>
 

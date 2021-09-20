@@ -6,12 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
 
-namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByIdClient
+namespace wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersByClient
 {
-    public class GetFoodOrderByIdClientQuery : IRequest<FoodOrderVM>
+    public class GetAllFoodOrdersByClientQuery :IRequest<IEnumerable<FoodOrderVM>>
     {
         public int ClientId { get; set; }
-        public int OrderId { get; set; }
-       
-    }
+}
 }

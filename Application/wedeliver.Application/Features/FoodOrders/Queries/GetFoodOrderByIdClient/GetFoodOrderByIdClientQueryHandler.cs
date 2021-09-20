@@ -34,7 +34,7 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByIdClie
 
         public async Task<FoodOrderVM> Handle(GetFoodOrderByIdClientQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<FoodOrder, bool>> predicate = o => o.Id == request.OrderId;
+            Expression<Func<FoodOrder, bool>> predicate = o => o.ClientID == request.ClientId && o.Id == request.OrderId ;
 
             var orders = await GetFoodOrder(predicate);
             var foodOrderDTO = _mapper.Map<FoodOrderVM>(orders);
