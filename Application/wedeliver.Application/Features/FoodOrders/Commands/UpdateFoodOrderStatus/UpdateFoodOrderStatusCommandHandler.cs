@@ -49,7 +49,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
 
             Expression<Func<FoodOrder, bool>> predicate = o => o.Id == request.OrderId && o.RestaurantId==request.RestaurantId;
 
-            var FoodOrderResult = await GetWorkItem(predicate);
+            var FoodOrderResult = await GetOrder(predicate);
 
             if (FoodOrderResult is null)
             {
@@ -64,7 +64,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
         }
 
 
-        public async Task<FoodOrder> GetWorkItem(Expression<Func<FoodOrder, bool>> predicate)
+        public async Task<FoodOrder> GetOrder(Expression<Func<FoodOrder, bool>> predicate)
         {
             var query = _context.FoodOrder.Where(predicate);
 
