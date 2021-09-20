@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStatus;
 using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrderByRestaurantId;
+using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestaurantId;
 using wedeliver.webapi.Controllers.Base;
 
 namespace wedeliver.webapi.Controllers.FoodOrder
@@ -46,6 +47,21 @@ namespace wedeliver.webapi.Controllers.FoodOrder
 
             return NotFound();
            
+        }
+
+        [HttpGet(("restaurant/{restaurantId}/orders/{orderId}"), Name = "GetSpecificFoodOrderByRestaurant")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetSpecificFoodOrderByRestaurant(int restaurantId, int orderId)
+        {
+            var result = await Mediator.Send(new GetFoodOrderByRestaurantIdQuery { RestaurantId = restaurantId, OrderId = orderId });
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
+
         }
 
     }
