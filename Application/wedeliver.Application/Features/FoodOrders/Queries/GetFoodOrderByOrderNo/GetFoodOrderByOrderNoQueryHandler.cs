@@ -12,17 +12,17 @@ using wedeliver.Application.Features.FoodOrders.ViewModels;
 
 namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByOrderNo
 {
-    public class GetFoodOrderByRestaurantIdQueryHandler : IRequestHandler<GetFoodOrderByOrderNoQuery, FoodOrderVM>
+    public class GetFoodOrderByOrderNoQueryHandler : IRequestHandler<GetFoodOrderByOrderNoQuery, FoodOrderVM>
     {
         private readonly IFoodOrderRepository _foodOrderRepository;
         private readonly IFoodOrderDetailsRepository _foodOrderDetailsRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetFoodOrderByRestaurantIdQueryHandler> _logger;
+        private readonly ILogger<GetFoodOrderByOrderNoQueryHandler> _logger;
 
-        public GetFoodOrderByRestaurantIdQueryHandler(IFoodOrderRepository foodOrderRepository,
+        public GetFoodOrderByOrderNoQueryHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
-            IMapper mapper, ILogger<GetFoodOrderByRestaurantIdQueryHandler> logger,
+            IMapper mapper, ILogger<GetFoodOrderByOrderNoQueryHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository)
 
 

@@ -6,11 +6,8 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestau
 {
     public class GetFoodOrderByRestaurantIdQuery : IRequest<FoodOrderVM>
     {
-        public int restaurantId { get; set; }
+        public int RestaurantId { get; set; }
 
-        public GetFoodOrderByRestaurantIdQuery(int restaurantId)
-        {
-            this.restaurantId = restaurantId;
-        }
+       
     }
 }

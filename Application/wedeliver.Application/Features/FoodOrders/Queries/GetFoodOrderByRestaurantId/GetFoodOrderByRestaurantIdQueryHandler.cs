@@ -38,8 +38,8 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestau
 
         public async Task<FoodOrderVM> Handle(GetFoodOrderByRestaurantIdQuery request, CancellationToken cancellationToken)
         {
-
-            var order = await _foodOrderRepository.GetOrdersByRestaurantId(request.restaurantId);
+            
+            var order = await _foodOrderRepository.GetOrdersByRestaurantId(request.RestaurantId);
             var fooditemDTO = _mapper.Map<FoodOrderVM>(order);
             return fooditemDTO;
         }

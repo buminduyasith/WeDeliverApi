@@ -12,17 +12,17 @@ using wedeliver.Application.Features.FoodOrders.ViewModels;
 
 namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderById
 {
-    public class GetFoodOrderByOrderNoQueryHandler : IRequestHandler<GetFoodOrderByRestaurantIdQuery, FoodOrderVM>
+    public class GetFoodOrderByIdQueryHandler : IRequestHandler<GetFoodOrderByIdQuery, FoodOrderVM>
     {
         private readonly IFoodOrderRepository _foodOrderRepository;
         private readonly IFoodOrderDetailsRepository _foodOrderDetailsRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetFoodOrderByOrderNoQueryHandler> _logger;
+        private readonly ILogger<GetFoodOrderByIdQueryHandler> _logger;
 
-        public GetFoodOrderByOrderNoQueryHandler(IFoodOrderRepository foodOrderRepository,
+        public GetFoodOrderByIdQueryHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
-            IMapper mapper, ILogger<GetFoodOrderByOrderNoQueryHandler> logger,
+            IMapper mapper, ILogger<GetFoodOrderByIdQueryHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository)
 
 
@@ -36,7 +36,7 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderById
 
         }
 
-        public async Task<FoodOrderVM> Handle(GetFoodOrderByRestaurantIdQuery request, CancellationToken cancellationToken)
+        public async Task<FoodOrderVM> Handle(GetFoodOrderByIdQuery request, CancellationToken cancellationToken)
         {
 
             var order = await _foodOrderRepository.GetByIdAsync(request.Id);
