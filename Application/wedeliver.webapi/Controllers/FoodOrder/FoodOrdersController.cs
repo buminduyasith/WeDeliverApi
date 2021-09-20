@@ -23,8 +23,7 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         public async Task<ActionResult<FoodOrderVM>> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand)
         {
             var result = await Mediator.Send(createFoodOrderCommand);
-            ///todo: change the crearedAtRoute method first parameter
-            return CreatedAtRoute("GetAllFoodOrdersByRestaurantId", new { Id=result.Id}, result);
+            return CreatedAtRoute("GetSpecificFoodOrderByClient", new { orderId = result.Id, clientId =result.ClientID}, result);
            
         }
 
