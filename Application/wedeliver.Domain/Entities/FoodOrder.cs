@@ -22,5 +22,9 @@ namespace wedeliver.Domain.Entities
         public OrderType OrderType { get; set; }
         public string Note { get; set; }
 
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

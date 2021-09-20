@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
+using wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStatus;
 using wedeliver.webapi.Controllers.Base;
 
 namespace wedeliver.webapi.Controllers.FoodOrder
@@ -18,6 +19,15 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         public async Task<IActionResult> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand)
         {
             var result = await Mediator.Send(createFoodOrderCommand);
+            return Ok(result);
+        }
+
+        [HttpPut(("status/{id}"), Name = "UpdateFoodOrderStatus")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateFoodOrderStatus(int id,UpdateFoodOrderStatusCommand updateFoodOrderStatusCommand)
+        {
+            var result = await Mediator.Send(updateFoodOrderStatusCommand);
             return Ok(result);
         }
     }
