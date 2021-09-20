@@ -8,6 +8,7 @@ using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStatus;
 using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrderByRestaurantId;
 using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestaurantId;
+using wedeliver.Application.Features.FoodOrders.ViewModels;
 using wedeliver.webapi.Controllers.Base;
 
 namespace wedeliver.webapi.Controllers.FoodOrder
@@ -18,10 +19,11 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         [HttpPost(Name = "CreateFoodOrder")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand)
+        public async Task<ActionResult<FoodOrderVM>> CreateFoodOrder(CreateFoodOrderCommand createFoodOrderCommand)
         {
             var result = await Mediator.Send(createFoodOrderCommand);
-            return Ok(result);
+            return CreatedAtRoute("GetAllFoodOrdersByRestaurantId", new { Id=result.Id}, result);
+           
         }
 
         [HttpPut(("status/{id}"), Name = "UpdateFoodOrderStatus")]
@@ -30,14 +32,14 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         public async Task<IActionResult> UpdateFoodOrderStatus(int id,UpdateFoodOrderStatusCommand updateFoodOrderStatusCommand)
         {
             var result = await Mediator.Send(updateFoodOrderStatusCommand);
-            return Ok(result);
+            return NoContent();
         }
 
 
         [HttpGet(("restaurant/{id}/orders"), Name = "GetAllFoodOrdersByRestaurantId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllFoodOrdersByRestaurantId(int id)
+        public async Task<ActionResult<IEnumerable<FoodOrderRestaurantVM>>> GetAllFoodOrdersByRestaurantId(int id)
         {
             var result = await Mediator.Send(new GetAllFoodOrderByRestaurantIdQuery { RestaurantId=id});
             if (result != null)
@@ -52,7 +54,7 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         [HttpGet(("restaurant/{restaurantId}/orders/{orderId}"), Name = "GetSpecificFoodOrderByRestaurant")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetSpecificFoodOrderByRestaurant(int restaurantId, int orderId)
+        public async Task<ActionResult<FoodOrderRestaurantVM>> GetSpecificFoodOrderByRestaurant(int restaurantId, int orderId)
         {
             var result = await Mediator.Send(new GetFoodOrderByRestaurantIdQuery { RestaurantId = restaurantId, OrderId = orderId });
             if (result != null)
