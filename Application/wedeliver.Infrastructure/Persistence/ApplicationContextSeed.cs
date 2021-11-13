@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Domain;
+using wedeliver.Domain.Entities;
 
 namespace wedeliver.Infrastructure.Persistence
 {
@@ -12,20 +13,27 @@ namespace wedeliver.Infrastructure.Persistence
     {
         public static async Task SeedAsync(ApplicationDbContext applicationContextSeed, ILogger<ApplicationContextSeed> logger)
         {
-            if (!applicationContextSeed.Foods.Any())
-            {
-                applicationContextSeed.Foods.AddRange(GetPreconfiguredOrders());
-                await applicationContextSeed.SaveChangesAsync();
-                logger.LogInformation("Seed database associated with context {DbContextName}", typeof(ApplicationDbContext).Name);
-            }
+            /* if (!applicationContextSeed.Foods.Any())
+             {
+                 applicationContextSeed.Foods.AddRange(GetPreconfiguredOrders());
+                 await applicationContextSeed.SaveChangesAsync();
+                 logger.LogInformation("Seed database associated with context {DbContextName}", typeof(ApplicationDbContext).Name);
+             }*/
+
+            //if (!applicationContextSeed.FoodCategory.Any())
+            //{
+            //    applicationContextSeed.FoodCategory.AddRange(GetPreconfiguredOrders());
+            //    await applicationContextSeed.SaveChangesAsync();
+            //    logger.LogInformation("Seed database associated with context {DbContextName}", typeof(ApplicationDbContext).Name);
+            //}
         }
 
-        private static IEnumerable<Food> GetPreconfiguredOrders()
-        {
-            return new List<Food>
-            {
-                new Food() {Name="chicken rice",Discription="chicken rice 1",Price=250.45 }
-            };
-        }
+        //private static IEnumerable<FoodCategory> GetPreconfiguredOrders()
+        //{
+        //    return new List<FoodCategory>
+        //    {
+        //        new FoodCategory() {Name="",slug, }
+        //    };
+        //}
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,6 +24,13 @@ namespace wedeliver.Infrastructure.Persistence
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors();
+        }
+   
+
         public DbSet<Food> Foods { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -31,6 +40,7 @@ namespace wedeliver.Infrastructure.Persistence
         public DbSet<FoodOrder> FoodOrder { get; set; }
         public DbSet<FoodOrderDetails> FoodOrderDetails { get; set; }
         public DbSet<MedicineOrder> MedicineOrders { get; set; }
+        public DbSet<FoodCategory> FoodCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
