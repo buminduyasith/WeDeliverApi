@@ -10,12 +10,15 @@ namespace wedeliver.Domain.Enums
     {
         Pending=1,
         OrderPlaced=2,
-        ReadyToPickedUpForRider=3,
-        RiderAccepted=4,
-        PickedUp=5,
-        Delivered=6,
-        PAID=7,
-        ReadyToPickedUpBuyer = 8,
+        BeingPrepared=3,
+        ReadyToPickedUpForRider =4,
+        RiderAccepted=5,
+        PickedUp=6,
+        Delivered=7,
+        PAID=8,
+        ReadyToPickedUpBuyer = 9,
+        CANCELED = 10,
+
 
     }
 }

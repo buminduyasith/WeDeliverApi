@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using wedeliver.Domain.Common;
 using wedeliver.Domain.Entities;
-using wedeliver.Domain.Enums;
+//using wedeliver.Domain.Enums;
 
 namespace wedeliver.Domain
 {
@@ -19,8 +19,9 @@ namespace wedeliver.Domain
         public string ImageUrl { get; set; }
         public int RestaurantId { get; set; }
 
-       // [JsonIgnore]
         public Restaurant Restaurant { get; set; }
+        public int FoodCategoryId { get; set; }
+        public FoodCategory FoodCategory { get; set; }
 
 
 

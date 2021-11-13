@@ -20,6 +20,7 @@ namespace wedeliver.Domain.Entities
         public Restaurant Restaurant { get; set; }
         public FoodOrderStatus FoodOrderStatus { get; set; }
         public OrderType OrderType { get; set; }
+        public Boolean Piad { get; set; }
         public string Note { get; set; }
 
         public override string ToString()
