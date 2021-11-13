@@ -257,6 +257,38 @@ namespace wedeliver.Infrastructure.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("wedeliver.Domain.Entities.FoodCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("slug")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("FoodCategory");
+                });
+
             modelBuilder.Entity("wedeliver.Domain.Entities.FoodOrder", b =>
                 {
                     b.Property<int>("Id")
@@ -287,6 +319,9 @@ namespace wedeliver.Infrastructure.Migrations
 
                     b.Property<int>("OrderType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Piad")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Qty")
                         .HasColumnType("int");
@@ -636,6 +671,9 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FoodCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -652,6 +690,8 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FoodCategoryId");
 
                     b.HasIndex("RestaurantId");
 
@@ -716,6 +756,17 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.FoodCategory", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Entities.FoodOrder", b =>
@@ -825,11 +876,19 @@ namespace wedeliver.Infrastructure.Migrations
 
             modelBuilder.Entity("wedeliver.Domain.Food", b =>
                 {
+                    b.HasOne("wedeliver.Domain.Entities.FoodCategory", "FoodCategory")
+                        .WithMany()
+                        .HasForeignKey("FoodCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
                         .WithMany("Foods")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FoodCategory");
 
                     b.Navigation("Restaurant");
                 });
