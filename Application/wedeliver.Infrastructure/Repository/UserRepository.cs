@@ -12,6 +12,7 @@ using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreateRiderUser;
+using wedeliver.Application.ViewModels;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -52,7 +53,7 @@ namespace wedeliver.Infrastructure.Repository
                     Name=user.StoreName,
                     OwnerName = user.OwnerName,
                     Discription = user.Discription,
-                    FoodCategory = user.FoodCategory,
+                    FoodCategory =  user.FoodCategory,
                     Active=false,
                     PersonalPhoneNumber = user.PersonalPhoneNumber,
                     TelphoneNumber = user.TelphoneNumber,
@@ -64,7 +65,8 @@ namespace wedeliver.Infrastructure.Repository
                         City = user.City,
                         Street = user.Street,
                         
-                    }
+                    },
+                    ProfilePictureUrl=user.ProfilePictureUrl
                     
                 };
                 _dbContext.Restaurants.Add(restaurantUser);
@@ -173,5 +175,43 @@ namespace wedeliver.Infrastructure.Repository
                 throw new Exception("user not created");
             }
         }
+
+        public async Task<UserVM> UserLogin(string email, string password)
+        {
+            var user = await FindByEmailAsync(email);
+
+            if( user != null)
+            {
+
+                var isSuccessLogin = await _userManager.CheckPasswordAsync(user, password);
+
+                if (isSuccessLogin)
+                {
+                    var userRole = await _dbContext.UserRoles.FindAsync(user.Id);
+
+                    var uservm = new UserVM
+                    {
+                        email = user.Email,
+                        UserRole = userRole.RoleId,
+                       
+
+                    };
+
+                    return uservm;
+                }
+                else
+                {
+                    throw new Exception("username or password is incorrect");
+                }
+
+               
+            }
+
+            else
+            {
+                throw new Exception("Invalid User");
+            }
+        }
+
     }
 }

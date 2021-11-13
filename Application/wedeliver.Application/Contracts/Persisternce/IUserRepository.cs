@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 using wedeliver.Application.Features.User.Commands.CreateRiderUser;
+using wedeliver.Application.ViewModels;
 //using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 
 namespace wedeliver.Application.Contracts.Persisternce
@@ -19,7 +20,7 @@ namespace wedeliver.Application.Contracts.Persisternce
        // Task<IdentityUser> FindByEmailAsync(string email);
         //Task<AuthResult> GenerateJwtToken(IdentityUser user);
 
-        //Task<AuthResult> UserLogin(UserLoginRequest user);
+        Task<UserVM> UserLogin(string email, string password);
 
         //Task<AuthResult> VerifyToken(TokenRequest tokenRequest);
 
