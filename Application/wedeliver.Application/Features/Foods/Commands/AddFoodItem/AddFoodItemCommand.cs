@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.ViewModels;
+using wedeliver.Domain.Entities;
 
 namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
 {
@@ -15,6 +16,8 @@ namespace wedeliver.Application.Features.Foods.Commands.AddFoodItem
         public string Discription { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
+        public int FoodCategoryId { get; set; }
        
+
     }
 }
