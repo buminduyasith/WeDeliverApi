@@ -13,6 +13,8 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
     {
         public int RestaurantId { get; set; }
         public int OrderId { get; set; }
+        public int ClientId { get; set; }
+        public int RiderId { get; set; }
         public FoodOrderStatus Status { get; set; }
     }
 }

@@ -58,6 +58,11 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
 
             _logger.LogInformation("UpdateFoodOrderStatusCommand", FoodOrderResult.ToString());
 
+            FoodOrderResult.FoodOrderStatus = request.Status;
+
+            _context.FoodOrder.Update(FoodOrderResult);
+
+            await  _context.SaveChangesAsync();
 
             return await Task.FromResult(Unit.Value);
 
