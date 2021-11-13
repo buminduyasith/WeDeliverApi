@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using wedeliver.Application;
@@ -21,6 +23,7 @@ namespace wedeliver.webapi
 {
     public class Startup
     {
+        private readonly string MyAllowSpecificOrigins = "CorsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,8 +40,34 @@ namespace wedeliver.webapi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "wedeliver.webapi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "wedeliver.webapi",
+                    Version = "v1" ,
+                   Description= "Application for deliver foods and medicine",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Bumindu yasith",
+                        Email = string.Empty,
+                        Url = new Uri("https://twitter.com/spboyer"),
+                    },
+
+                });
+
+              
             });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyHeader());
+            });
+
 
             //services.AddControllers().AddJsonOptions(x =>
             //                            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -70,6 +99,9 @@ namespace wedeliver.webapi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
+
 
             app.UseAuthorization();
 
