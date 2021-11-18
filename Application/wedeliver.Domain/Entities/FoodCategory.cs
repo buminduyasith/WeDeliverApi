@@ -11,7 +11,9 @@ namespace wedeliver.Domain.Entities
     {
         public string slug { get; set; }
         public string Name { get; set; }
-        public int RestaurantId { get; set; }
-        public Restaurant Restaurant { get; set; }
+
+        #nullable enable
+        public string? IconURl { get; set; }
+        
     }
 }

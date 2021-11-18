@@ -22,6 +22,8 @@ namespace wedeliver.Domain.Entities
         public OrderType OrderType { get; set; }
         public Boolean Piad { get; set; }
         public string Note { get; set; }
+        public int? RiderId { get; set; }
+        public Rider Rider { get; set; }
 
         public override string ToString()
         {
