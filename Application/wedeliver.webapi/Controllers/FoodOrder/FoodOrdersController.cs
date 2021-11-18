@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
+using wedeliver.Application.Features.FoodOrders.Commands.RiderAcceptOrder;
 using wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStatus;
 using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrderByRestaurantId;
+using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersAvailableForRiders;
 using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersByClient;
 using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByIdClient;
 using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestaurantId;
@@ -63,14 +65,14 @@ namespace wedeliver.webapi.Controllers.FoodOrder
         /// implement this in handler
         /// </summary>
 
-        [HttpPut(("status/{id}"), Name = "UpdateFoodOrderStatus")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateFoodOrderStatus(int id,UpdateFoodOrderStatusCommand updateFoodOrderStatusCommand)
-        {
-            var result = await Mediator.Send(updateFoodOrderStatusCommand);
-            return NoContent();
-        }
+        //[HttpPut(("status/{id}"), Name = "UpdateFoodOrderStatus")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<IActionResult> UpdateFoodOrderStatus(int id, UpdateFoodOrderStatusCommand updateFoodOrderStatusCommand)
+        //{
+        //    var result = await Mediator.Send(updateFoodOrderStatusCommand);
+        //    return NoContent();
+        //}
 
 
         [HttpGet(("restaurant/{id}/orders"), Name = "GetAllFoodOrdersByRestaurantId")]
@@ -100,6 +102,56 @@ namespace wedeliver.webapi.Controllers.FoodOrder
             }
 
             return NotFound();
+
+        }
+
+
+        [HttpGet(("riders/orderstobedelivered"), Name = "GetAllFoodOrdersAvailableForRiders")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FoodOrderRestaurantVM>> GetAllFoodOrdersAvailableForRiders()
+        {
+            var result = await Mediator.Send(new GetAllFoodOrdersAvailableForRidersQuery());
+
+            if (result != null)
+            {
+               return Ok(result);
+            }
+
+            return NotFound();
+
+        }
+
+       
+        [HttpPost(("rideracceptorder"), Name = "RiderAcceptOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        //check the return type 
+        public async Task<ActionResult> RiderAcceptOrder(RiderAcceptOrderCommand riderAcceptOrderCommand)
+        {
+            var result = await Mediator.Send(riderAcceptOrderCommand);
+
+            if(result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpPost(("updateorderstatus"), Name = "UpdateOrderStatus")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<FoodOrderVM>> UpdateOrderStatus(UpdateFoodOrderStatusCommand updateFoodOrderStatusCommand)
+        {
+            var result = await Mediator.Send(updateFoodOrderStatusCommand);
+           
+            //first parameter need to change
+            return CreatedAtRoute("UpdateOrderStatus", new { orderId = updateFoodOrderStatusCommand.OrderId }, result);
 
         }
 

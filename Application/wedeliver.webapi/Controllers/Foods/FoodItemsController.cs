@@ -24,9 +24,6 @@ namespace wedeliver.webapi.Controllers.Foods
             return Ok(result);
         }
 
-
-      
-
         [HttpGet("{id}", Name = "GetFoodItemById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,10 +41,6 @@ namespace wedeliver.webapi.Controllers.Foods
             var result = await Mediator.Send(addFoodItemCommand);
             return Ok(result);
         }
-
-
-
-
 
     }
 }
