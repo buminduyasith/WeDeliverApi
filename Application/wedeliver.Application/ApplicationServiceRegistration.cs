@@ -4,6 +4,8 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using wedeliver.Application.Behaviours;
 using FluentValidation;
+using wedeliver.Application.Contracts.Persisternce;
+using wedeliver.Application.Services;
 
 namespace wedeliver.Application
 {
@@ -17,6 +19,8 @@ namespace wedeliver.Application
 
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
+            services.AddScoped<IOrderStatusService, OrderStatusService>();
 
             return services;
         }

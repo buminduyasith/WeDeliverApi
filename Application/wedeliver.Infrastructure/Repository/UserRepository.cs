@@ -13,6 +13,8 @@ using wedeliver.Domain.Enums;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreateRiderUser;
 using wedeliver.Application.ViewModels;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -187,17 +189,51 @@ namespace wedeliver.Infrastructure.Repository
 
                 if (isSuccessLogin)
                 {
-                    var userRole = await _dbContext.UserRoles.FindAsync(user.Id);
 
-                    var uservm = new UserVM
+                    var userRole =await  _userManager.GetRolesAsync(user);  //await _dbContext.UserRoles.FindAsync();
+
+                    UserVM uservm = null;
+
+                    if (userRole.Contains(UserRoles.RestaurantAdmin.ToString()))
                     {
-                        email = user.Email,
-                        UserRole = userRole.RoleId,
-                       
+                        var restaurantUser = await _dbContext.Restaurants.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
 
-                    };
+                        uservm = new UserVM
+                        {
+                            email = user.Email,
+                            UserRole = userRole,
+                            UserIdentityId = user.Id,
+                            Id = restaurantUser.Id
+
+                        };
+                    }
+
+                    else if (userRole.Contains(UserRoles.Client.ToString()))
+                    {
+                        uservm = new UserVM
+                        {
+                            email = user.Email,
+                            UserRole = userRole,
+
+                        };
+                    }
+
+                    else if (userRole.Contains(UserRoles.Client.ToString()))
+                    {
+                        uservm = new UserVM
+                        {
+                            email = user.Email,
+                            UserRole = userRole,
+
+                        };
+
+                    }
 
                     return uservm;
+
+                 
+
+                   
                 }
                 else
                 {
