@@ -10,7 +10,9 @@ namespace wedeliver.Application.ViewModels
     {
         public string email { get; set; }
         public string Name { get; set; }
-        public string UserRole { get; set; }
+        public IList<string> UserRole { get; set; } = new List<string>();
         public string JwtKey { get; set; }
+        public string UserIdentityId { get; set; }
+        public int Id { get; set; }
     }
 }
