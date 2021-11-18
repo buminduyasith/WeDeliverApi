@@ -10,8 +10,8 @@ using wedeliver.Infrastructure.Persistence;
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211112144148_v1")]
-    partial class v1
+    [Migration("20211114080238_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -272,21 +272,19 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("IconURl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
                     b.Property<string>("slug")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("FoodCategory");
                 });
@@ -613,6 +611,37 @@ namespace wedeliver.Infrastructure.Migrations
                     b.ToTable("Restaurants");
                 });
 
+            modelBuilder.Entity("wedeliver.Domain.Entities.RestaurantFoodCategoryMap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FoodCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodCategoryId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("RestaurantFoodCategoryMap");
+                });
+
             modelBuilder.Entity("wedeliver.Domain.Entities.Rider", b =>
                 {
                     b.Property<int>("Id")
@@ -760,17 +789,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("wedeliver.Domain.Entities.FoodCategory", b =>
-                {
-                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
-                        .WithMany()
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Restaurant");
-                });
-
             modelBuilder.Entity("wedeliver.Domain.Entities.FoodOrder", b =>
                 {
                     b.HasOne("wedeliver.Domain.Entities.Client", "Client")
@@ -865,6 +883,25 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.RestaurantFoodCategoryMap", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.FoodCategory", "FoodCategory")
+                        .WithMany()
+                        .HasForeignKey("FoodCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FoodCategory");
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Entities.Rider", b =>
