@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
+using wedeliver.Application.Features.Foods.Commands.AddFoodCategory;
 using wedeliver.Application.Features.Foods.Commands.AddFoodItem;
 using wedeliver.Application.Features.Foods.Commands.UpdateFoodItem;
 using wedeliver.Application.ViewModels;
@@ -34,8 +35,17 @@ namespace wedeliver.Application.Mappings
 
             CreateMap<FoodOrder, FoodOrderBackOfficeVM>().ReverseMap();
             CreateMap<FoodOrder, FoodOrderRestaurantVM>().ReverseMap();
+            CreateMap<FoodCategory, AddFoodCategoryCommand>().ReverseMap();
+            CreateMap<FoodCategory, FoodCategoryVM>().ReverseMap();
 
-            
+            CreateMap<FoodCategory, FoodCategoryVM>()
+               .ForMember(dest => dest.Text,
+               opt => opt.MapFrom(src => src.Name))
+               .ForMember(dest => dest.Value,
+               opt => opt.MapFrom(src => src.Id));
+              
+
+
 
 
         }

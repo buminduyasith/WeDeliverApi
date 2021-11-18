@@ -23,12 +23,13 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<UpdateFoodOrderStatusCommandHandler> _logger;
+        private readonly IOrderStatusService _orderStatusService;
 
         public UpdateFoodOrderStatusCommandHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
             IMapper mapper, ILogger<UpdateFoodOrderStatusCommandHandler> logger,
              IApplicationDbContext applicationDbContext,
-        IFoodOrderDetailsRepository foodOrderDetailsRepository)
+        IFoodOrderDetailsRepository foodOrderDetailsRepository, IOrderStatusService orderStatusService)
 
 
         {
@@ -39,50 +40,32 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStat
             _foodRepository = foodRepository;
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
             _context = applicationDbContext;
+            _orderStatusService = orderStatusService;
 
         }
         public async Task<Unit> Handle(UpdateFoodOrderStatusCommand request, CancellationToken cancellationToken)
         {
           // var order = await _context.FoodOrder.Where(item => item.Id == request.OrderId).FirstOrDefaultAsync();
            
-          
-
-            Expression<Func<FoodOrder, bool>> predicate = o => o.Id == request.OrderId && o.RestaurantId==request.RestaurantId;
-
-            var FoodOrderResult = await GetOrder(predicate);
-
-            if (FoodOrderResult is null)
+           if(request.RestaurantId != null)
             {
-                throw new NotFoundException("order not found", FoodOrderResult);
+               return await _orderStatusService.updateOrderStatusFromRestaurant(request);
             }
 
-            _logger.LogInformation("UpdateFoodOrderStatusCommand", FoodOrderResult.ToString());
-
-            FoodOrderResult.FoodOrderStatus = request.Status;
-
-            _context.FoodOrder.Update(FoodOrderResult);
-
-            await  _context.SaveChangesAsync();
+           else if(request.RiderId != null)
+            {
+                return await _orderStatusService.updateOrderStatusFromRider(request);
+            }
+           
 
             return await Task.FromResult(Unit.Value);
 
         }
 
 
-        public async Task<FoodOrder> GetOrder(Expression<Func<FoodOrder, bool>> predicate)
-        {
-            var query = _context.FoodOrder.Where(predicate);
+        
 
-            await query.Include(x => x.Restaurant)
-                        .LoadAsync();
-            await query.Include(x => x.Client)
-                        .LoadAsync();
-
-            await query.Include(x => x.ItemList)
-                       .LoadAsync();
-
-            return await query.FirstOrDefaultAsync();
-        }
+           
 
     }
 

@@ -13,7 +13,7 @@ using wedeliver.Application.ViewModels;
 
 namespace wedeliver.Application.Features.Foods.Queries.GetFoodById
 {
-    class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, FoodVM>
+    public class GetFoodByIdQueryHandler : IRequestHandler<GetFoodByIdQuery, FoodVM>
     {
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
