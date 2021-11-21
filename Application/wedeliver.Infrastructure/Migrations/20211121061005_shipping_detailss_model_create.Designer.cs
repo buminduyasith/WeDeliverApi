@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using wedeliver.Infrastructure.Persistence;
 
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211121061005_shipping_detailss_model_create")]
+    partial class shipping_detailss_model_create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -330,9 +332,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<int?>("RiderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShippingDetailsId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
@@ -343,8 +342,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.HasIndex("RestaurantId");
 
                     b.HasIndex("RiderId");
-
-                    b.HasIndex("ShippingDetailsId");
 
                     b.ToTable("FoodOrder");
                 });
@@ -710,9 +707,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -738,8 +732,6 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("ShippingDetails");
                 });
@@ -865,19 +857,11 @@ namespace wedeliver.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("RiderId");
 
-                    b.HasOne("wedeliver.Domain.Entities.ShippingDetails", "ShippingDetails")
-                        .WithMany()
-                        .HasForeignKey("ShippingDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Client");
 
                     b.Navigation("Restaurant");
 
                     b.Navigation("Rider");
-
-                    b.Navigation("ShippingDetails");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Entities.FoodOrderDetails", b =>
@@ -983,15 +967,6 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
-                });
-
-            modelBuilder.Entity("wedeliver.Domain.Entities.ShippingDetails", b =>
-                {
-                    b.HasOne("wedeliver.Domain.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Food", b =>

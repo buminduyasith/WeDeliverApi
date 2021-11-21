@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
+using wedeliver.Application.ViewModels;
+using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 
 namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
@@ -16,7 +18,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
         public ICollection<FoodOrderRequestDto> ItemList { get; set; } = new List<FoodOrderRequestDto>();
         public OrderType OrderType { get; set; }
         public string Note { get; set; }
-
+        public ShippingDetailsVM ShippingDetails { get; set; }
 
 
 

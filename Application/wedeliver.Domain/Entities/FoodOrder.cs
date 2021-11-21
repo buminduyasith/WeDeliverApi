@@ -24,7 +24,8 @@ namespace wedeliver.Domain.Entities
         public string Note { get; set; }
         public int? RiderId { get; set; }
         public Rider Rider { get; set; }
-
+        public int ShippingDetailsId { get; set; }
+        public ShippingDetails ShippingDetails { get; set; }
         public override string ToString()
         {
             return base.ToString();
