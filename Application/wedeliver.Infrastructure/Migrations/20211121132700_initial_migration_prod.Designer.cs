@@ -10,8 +10,8 @@ using wedeliver.Infrastructure.Persistence;
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211121061201_add_shipping_details_model_to_foodOrder")]
-    partial class add_shipping_details_model_to_foodOrder
+    [Migration("20211121132700_initial_migration_prod")]
+    partial class initial_migration_prod
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -712,6 +712,9 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -737,6 +740,8 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("ShippingDetails");
                 });
@@ -980,6 +985,15 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.ShippingDetails", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Food", b =>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace wedeliver.Infrastructure.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class initial_migration_prod : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -337,39 +337,33 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodOrder",
+                name: "ShippingDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Total = table.Column<double>(type: "float", nullable: false),
-                    Qty = table.Column<int>(type: "int", nullable: false),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
-                    RestaurantId = table.Column<int>(type: "int", nullable: false),
-                    FoodOrderStatus = table.Column<int>(type: "int", nullable: false),
-                    OrderType = table.Column<int>(type: "int", nullable: false),
-                    Piad = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HouseNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Province = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<int>(type: "int", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodOrder", x => x.Id);
+                    table.PrimaryKey("PK_ShippingDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FoodOrder_Clients_ClientID",
-                        column: x => x.ClientID,
+                        name: "FK_ShippingDetails_Clients_ClientId",
+                        column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FoodOrder_Restaurants_RestaurantId",
-                        column: x => x.RestaurantId,
-                        principalTable: "Restaurants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -478,6 +472,56 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FoodOrder",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    Qty = table.Column<int>(type: "int", nullable: false),
+                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    FoodOrderStatus = table.Column<int>(type: "int", nullable: false),
+                    OrderType = table.Column<int>(type: "int", nullable: false),
+                    Piad = table.Column<bool>(type: "bit", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiderId = table.Column<int>(type: "int", nullable: true),
+                    ShippingDetailsId = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodOrder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Riders_RiderId",
+                        column: x => x.RiderId,
+                        principalTable: "Riders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_ShippingDetails_ShippingDetailsId",
+                        column: x => x.ShippingDetailsId,
+                        principalTable: "ShippingDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FoodOrderDetails",
                 columns: table => new
                 {
@@ -563,6 +607,16 @@ namespace wedeliver.Infrastructure.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_RiderId",
+                table: "FoodOrder",
+                column: "RiderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_ShippingDetailsId",
+                table: "FoodOrder",
+                column: "ShippingDetailsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FoodOrderDetails_FoodId",
                 table: "FoodOrderDetails",
                 column: "FoodId");
@@ -631,6 +685,11 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "IX_Riders_LocationId1",
                 table: "Riders",
                 column: "LocationId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShippingDetails_ClientId",
+                table: "ShippingDetails",
+                column: "ClientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -675,19 +734,22 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "Pharmacy");
 
             migrationBuilder.DropTable(
-                name: "Riders");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Riders");
+
+            migrationBuilder.DropTable(
+                name: "ShippingDetails");
 
             migrationBuilder.DropTable(
                 name: "FoodCategory");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Locations");
