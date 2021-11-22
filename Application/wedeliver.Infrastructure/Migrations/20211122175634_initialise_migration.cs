@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace wedeliver.Infrastructure.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class initialise_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,6 +75,8 @@ namespace wedeliver.Infrastructure.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProvinceID = table.Column<int>(type: "int", nullable: false),
+                    CityID = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
@@ -261,6 +263,7 @@ namespace wedeliver.Infrastructure.Migrations
                     ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoverPictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StoreHours = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
@@ -337,39 +340,33 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodOrder",
+                name: "ShippingDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Total = table.Column<double>(type: "float", nullable: false),
-                    Qty = table.Column<int>(type: "int", nullable: false),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
-                    RestaurantId = table.Column<int>(type: "int", nullable: false),
-                    FoodOrderStatus = table.Column<int>(type: "int", nullable: false),
-                    OrderType = table.Column<int>(type: "int", nullable: false),
-                    Piad = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HouseNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Province = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<int>(type: "int", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodOrder", x => x.Id);
+                    table.PrimaryKey("PK_ShippingDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FoodOrder_Clients_ClientID",
-                        column: x => x.ClientID,
+                        name: "FK_ShippingDetails_Clients_ClientId",
+                        column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FoodOrder_Restaurants_RestaurantId",
-                        column: x => x.RestaurantId,
-                        principalTable: "Restaurants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -435,6 +432,63 @@ namespace wedeliver.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RestaurantRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    RatingType = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestaurantRating", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RestaurantRating_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RestaurantRating_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StoreOpenTimes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartHours = table.Column<int>(type: "int", nullable: false),
+                    StartMin = table.Column<int>(type: "int", nullable: false),
+                    EndHours = table.Column<int>(type: "int", nullable: false),
+                    EndMin = table.Column<int>(type: "int", nullable: false),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreOpenTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoreOpenTimes_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MedicineOrders",
                 columns: table => new
                 {
@@ -473,6 +527,56 @@ namespace wedeliver.Infrastructure.Migrations
                         name: "FK_MedicineOrders_Riders_RiderId",
                         column: x => x.RiderId,
                         principalTable: "Riders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodOrder",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    Qty = table.Column<int>(type: "int", nullable: false),
+                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    FoodOrderStatus = table.Column<int>(type: "int", nullable: false),
+                    OrderType = table.Column<int>(type: "int", nullable: false),
+                    Piad = table.Column<bool>(type: "bit", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiderId = table.Column<int>(type: "int", nullable: true),
+                    ShippingDetailsId = table.Column<int>(type: "int", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodOrder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_Riders_RiderId",
+                        column: x => x.RiderId,
+                        principalTable: "Riders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FoodOrder_ShippingDetails_ShippingDetailsId",
+                        column: x => x.ShippingDetailsId,
+                        principalTable: "ShippingDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -563,6 +667,16 @@ namespace wedeliver.Infrastructure.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_RiderId",
+                table: "FoodOrder",
+                column: "RiderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodOrder_ShippingDetailsId",
+                table: "FoodOrder",
+                column: "ShippingDetailsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FoodOrderDetails_FoodId",
                 table: "FoodOrderDetails",
                 column: "FoodId");
@@ -623,6 +737,17 @@ namespace wedeliver.Infrastructure.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RestaurantRating_ClientId",
+                table: "RestaurantRating",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestaurantRating_RestaurantId",
+                table: "RestaurantRating",
+                column: "RestaurantId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_LocationId1",
                 table: "Restaurants",
                 column: "LocationId1");
@@ -631,6 +756,17 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "IX_Riders_LocationId1",
                 table: "Riders",
                 column: "LocationId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShippingDetails_ClientId",
+                table: "ShippingDetails",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoreOpenTimes_RestaurantId",
+                table: "StoreOpenTimes",
+                column: "RestaurantId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -663,6 +799,12 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "RestaurantFoodCategoryMap");
 
             migrationBuilder.DropTable(
+                name: "RestaurantRating");
+
+            migrationBuilder.DropTable(
+                name: "StoreOpenTimes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -675,19 +817,22 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "Pharmacy");
 
             migrationBuilder.DropTable(
-                name: "Riders");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Riders");
+
+            migrationBuilder.DropTable(
+                name: "ShippingDetails");
 
             migrationBuilder.DropTable(
                 name: "FoodCategory");
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Locations");

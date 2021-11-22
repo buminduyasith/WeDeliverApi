@@ -399,6 +399,9 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CityID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -413,6 +416,9 @@ namespace wedeliver.Infrastructure.Migrations
 
                     b.Property<string>("Province")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProvinceID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
@@ -582,6 +588,9 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("Discription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("FoodCategory")
                         .HasColumnType("int");
 
@@ -648,6 +657,44 @@ namespace wedeliver.Infrastructure.Migrations
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("RestaurantFoodCategoryMap");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.RestaurantRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RatingType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("RestaurantId")
+                        .IsUnique();
+
+                    b.ToTable("RestaurantRating");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Entities.Rider", b =>
@@ -742,6 +789,45 @@ namespace wedeliver.Infrastructure.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("ShippingDetails");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.StoreOpenTimes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EndHours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EndMin")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StartHours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StartMin")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId")
+                        .IsUnique();
+
+                    b.ToTable("StoreOpenTimes");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Food", b =>
@@ -976,6 +1062,25 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Navigation("Restaurant");
                 });
 
+            modelBuilder.Entity("wedeliver.Domain.Entities.RestaurantRating", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
+                        .WithOne("RestaurantRating")
+                        .HasForeignKey("wedeliver.Domain.Entities.RestaurantRating", "RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("wedeliver.Domain.Entities.Rider", b =>
                 {
                     b.HasOne("wedeliver.Domain.Entities.Location", "Location")
@@ -992,6 +1097,17 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("wedeliver.Domain.Entities.StoreOpenTimes", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
+                        .WithOne("StoreOpenTimes")
+                        .HasForeignKey("wedeliver.Domain.Entities.StoreOpenTimes", "RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Food", b =>
@@ -1021,6 +1137,10 @@ namespace wedeliver.Infrastructure.Migrations
             modelBuilder.Entity("wedeliver.Domain.Entities.Restaurant", b =>
                 {
                     b.Navigation("Foods");
+
+                    b.Navigation("RestaurantRating");
+
+                    b.Navigation("StoreOpenTimes");
                 });
 #pragma warning restore 612, 618
         }
