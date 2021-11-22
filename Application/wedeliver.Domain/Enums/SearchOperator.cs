@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum RatingType
+    public enum SearchOperator
     {
-        Extraordinary = 5,
-        Excellent =4,
-        VeryGood =3,
-        Good = 2,
-        Fair = 1
-       
+        StartsWith = 1,
+        Contains = 2,
+        Search = 3,
+        Filter = 4,
     }
 }
