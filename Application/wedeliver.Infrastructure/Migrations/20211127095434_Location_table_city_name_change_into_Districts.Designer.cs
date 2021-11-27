@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using wedeliver.Infrastructure.Persistence;
 
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211127095434_Location_table_city_name_change_into_Districts")]
+    partial class Location_table_city_name_change_into_Districts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,9 +620,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<string>("StoreHours")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StoreOpenTimesId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("TelphoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -630,8 +629,6 @@ namespace wedeliver.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId1");
-
-                    b.HasIndex("StoreOpenTimesId1");
 
                     b.ToTable("Restaurants");
                 });
@@ -821,6 +818,9 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StartHours")
                         .HasColumnType("int");
 
@@ -828,6 +828,9 @@ namespace wedeliver.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId")
+                        .IsUnique();
 
                     b.ToTable("StoreOpenTimes");
                 });
@@ -1042,13 +1045,7 @@ namespace wedeliver.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LocationId1");
 
-                    b.HasOne("wedeliver.Domain.Entities.StoreOpenTimes", "StoreOpenTimes")
-                        .WithMany()
-                        .HasForeignKey("StoreOpenTimesId1");
-
                     b.Navigation("Location");
-
-                    b.Navigation("StoreOpenTimes");
                 });
 
             modelBuilder.Entity("wedeliver.Domain.Entities.RestaurantFoodCategoryMap", b =>
@@ -1107,6 +1104,17 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Navigation("Client");
                 });
 
+            modelBuilder.Entity("wedeliver.Domain.Entities.StoreOpenTimes", b =>
+                {
+                    b.HasOne("wedeliver.Domain.Entities.Restaurant", "Restaurant")
+                        .WithOne("StoreOpenTimes")
+                        .HasForeignKey("wedeliver.Domain.Entities.StoreOpenTimes", "RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("wedeliver.Domain.Food", b =>
                 {
                     b.HasOne("wedeliver.Domain.Entities.FoodCategory", "FoodCategory")
@@ -1136,6 +1144,8 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Navigation("Foods");
 
                     b.Navigation("RestaurantRating");
+
+                    b.Navigation("StoreOpenTimes");
                 });
 #pragma warning restore 612, 618
         }
