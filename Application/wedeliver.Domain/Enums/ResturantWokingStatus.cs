@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum RatingType
+    public enum ResturantWokingStatus
     {
-        Extraordinary = 5,
-        Excellent =4,
-        VeryGood =3,
-        Good = 2,
-        Fair = 1
-       
+        Online = 1,
+        Ofline = 2,
+        Busy = 3,
+        Closed = 4,
+        Available = 5
     }
 }

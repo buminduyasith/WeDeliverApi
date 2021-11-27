@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum RatingType
+    public enum Districts
     {
-        Extraordinary = 5,
-        Excellent =4,
-        VeryGood =3,
-        Good = 2,
-        Fair = 1
-       
+        HAMBANTOTA =1,
+        MATARA=2,
+        GALLE=3,
+        COLOMBO = 4,
+        GAMPAHA=5,
+        Kandy = 6
     }
 }
