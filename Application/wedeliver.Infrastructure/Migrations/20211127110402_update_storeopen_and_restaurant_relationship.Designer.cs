@@ -10,8 +10,8 @@ using wedeliver.Infrastructure.Persistence;
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211121132700_initial_migration_prod")]
-    partial class initial_migration_prod
+    [Migration("20211127110402_update_storeopen_and_restaurant_relationship")]
+    partial class update_storeopen_and_restaurant_relationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
