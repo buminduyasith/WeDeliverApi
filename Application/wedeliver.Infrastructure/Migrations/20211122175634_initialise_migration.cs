@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace wedeliver.Infrastructure.Migrations
 {
+<<<<<<< HEAD:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.cs
+    public partial class initial_migration_prod : Migration
+=======
     public partial class initialise_migration : Migration
+>>>>>>> dev/webdeliver.webapi:Application/wedeliver.Infrastructure/Migrations/20211122175634_initialise_migration.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -761,12 +765,21 @@ namespace wedeliver.Infrastructure.Migrations
                 name: "IX_ShippingDetails_ClientId",
                 table: "ShippingDetails",
                 column: "ClientId");
+<<<<<<<< HEAD:Application/wedeliver.Infrastructure/Migrations/20211122175634_initialise_migration.cs
+========
+<<<<<<< HEAD:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.cs
+=======
+>>>>>>>> fd074b18f431d475460ed14f23b2e5e5798faa75:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_StoreOpenTimes_RestaurantId",
                 table: "StoreOpenTimes",
                 column: "RestaurantId",
                 unique: true);
+<<<<<<<< HEAD:Application/wedeliver.Infrastructure/Migrations/20211122175634_initialise_migration.cs
+========
+>>>>>>> dev/webdeliver.webapi:Application/wedeliver.Infrastructure/Migrations/20211122175634_initialise_migration.cs
+>>>>>>>> fd074b18f431d475460ed14f23b2e5e5798faa75:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.cs
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

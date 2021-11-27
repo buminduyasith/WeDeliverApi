@@ -10,8 +10,14 @@ using wedeliver.Infrastructure.Persistence;
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<< HEAD:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.Designer.cs
+    [Migration("20211121132700_initial_migration_prod")]
+    partial class initial_migration_prod
+=======
     [Migration("20211127110402_update_storeopen_and_restaurant_relationship")]
     partial class update_storeopen_and_restaurant_relationship
+>>>>>>> dev/webdeliver.webapi:Application/wedeliver.Infrastructure/Migrations/20211127110402_update_storeopen_and_restaurant_relationship.Designer.cs
+>>>>>>>> fd074b18f431d475460ed14f23b2e5e5798faa75:Application/wedeliver.Infrastructure/Migrations/20211121132700_initial_migration_prod.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
