@@ -23,7 +23,11 @@ namespace wedeliver.Domain.Entities
         public string ProfilePictureUrl { get; set; }
         public string CoverPictureUrl { get; set; }
         public string StoreHours { get; set; }
-
+        public EntityStatus EntityStatus { get; set; }
+        public RestaurantRating RestaurantRating { get; set; }
+        private int StoreOpenTimesId { get; set; }
+        public StoreOpenTimes StoreOpenTimes { get; set; }
+        public ResturantWokingStatus ResturantWokingStatus { get; set; }
 
 
 

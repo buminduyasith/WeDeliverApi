@@ -26,6 +26,9 @@ namespace wedeliver.Application.Contracts.Persisternce
         public DbSet<FoodCategory> FoodCategory { get; set; }
         public DbSet<RestaurantFoodCategoryMap> RestaurantFoodCategoryMap { get; set; }
         public DbSet<ShippingDetails> ShippingDetails { get; set; }
+        public DbSet<RestaurantRating> RestaurantRating { get; set; }
+        public DbSet<StoreOpenTimes> StoreOpenTimes { get; set; }
+
 
         
 

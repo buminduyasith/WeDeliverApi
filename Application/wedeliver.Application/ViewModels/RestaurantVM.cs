@@ -15,8 +15,12 @@ namespace wedeliver.Application.ViewModels
         public string TelphoneNumber { get; set; }
         public Location Location { get; set; }
         public FoodStoreCategory FoodCategory { get; set; }
+        public RestaurantRatingVM RestaurantRating { get; set; }
+        public StoreOpenTimesVM StoreOpenTimes { get; set; }
+        public ResturantWokingStatus ResturantWokingStatus { get; set; }
+        public EntityStatus EntityStatus { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string CoverPictureUrl { get; set; }
-        public string StoreHours { get; set; }
+      
     }
 }
