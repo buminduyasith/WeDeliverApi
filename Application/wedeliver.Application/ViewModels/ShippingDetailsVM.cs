@@ -13,7 +13,7 @@ namespace wedeliver.Application.ViewModels
         public string PhoneNumber { get; set; }
         public string HouseNo { get; set; }
         public Provinces Province { get; set; }
-        public Cities City { get; set; }
+        public Districts City { get; set; }
         public string Street { get; set; }
         public string PostalCode { get; set; }
         public string Address { get; set; }

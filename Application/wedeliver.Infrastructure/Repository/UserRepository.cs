@@ -41,7 +41,7 @@ namespace wedeliver.Infrastructure.Repository
 
         public async Task CreateRestaurantUser(CreateRestaurantUserCommand user)
         {
-           
+            using var transaction = _dbContext.Database.BeginTransaction();
 
             IdentityUser newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
@@ -63,16 +63,27 @@ namespace wedeliver.Infrastructure.Repository
                     Location = new Location
                     {
                         HouseNo=user.HouseNo,
-                        Province = user.Province,
+                        Province = user.ProvinceId.ToString(),
                         City = user.City,
                         Street = user.Street,
-                        
+                        ProvinceID = user.ProvinceId,
+                        Districts = user.DistrictsId
                     },
+                    StoreOpenTimes = new StoreOpenTimes
+                    {
+                      StartHours = (int)(user.StartHours!=null?user.StartHours:0),
+                      EndHours = (int)(user.EndHourse != null ? user.EndHourse : 0),
+                      StartMin = 0,
+                      EndMin = 0,
+
+                    },
+                    StoreHours = $"{user.StartHours}:00 - {user.EndHourse}:00",
                     ProfilePictureUrl=user.ProfilePictureUrl
                     
                 };
                 _dbContext.Restaurants.Add(restaurantUser);
                 await _dbContext.SaveChangesAsync();
+                transaction.Commit();
                 return;
 
             }

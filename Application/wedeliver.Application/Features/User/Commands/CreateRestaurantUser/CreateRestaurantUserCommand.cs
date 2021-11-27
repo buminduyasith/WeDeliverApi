@@ -22,11 +22,14 @@ namespace wedeliver.Application.Features.User.Commands.CreateRestaurantUser
         public string TelphoneNumber { get; set; }
         public string PersonalPhoneNumber { get; set; }
         public string HouseNo { get; set; }
-        public string Province { get; set; }
+        public Provinces ProvinceId { get; set; }
+        public Districts DistrictsId { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string ProfilePictureUrl { get; set; }
         public FoodStoreCategory FoodCategory { get; set; }
+        public int? StartHours { get; set; }
+        public int? EndHourse { get; set; }
 
     }
 }

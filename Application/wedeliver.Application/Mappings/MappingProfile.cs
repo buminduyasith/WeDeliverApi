@@ -37,14 +37,17 @@ namespace wedeliver.Application.Mappings
             CreateMap<FoodOrder, FoodOrderRestaurantVM>().ReverseMap();
             CreateMap<FoodCategory, AddFoodCategoryCommand>().ReverseMap();
             CreateMap<FoodCategory, FoodCategoryVM>().ReverseMap();
-
+            
             CreateMap<FoodCategory, FoodCategoryVM>()
                .ForMember(dest => dest.Text,
                opt => opt.MapFrom(src => src.Name))
                .ForMember(dest => dest.Value,
                opt => opt.MapFrom(src => src.Id));
-              
 
+            CreateMap<RestaurantRating, RestaurantRatingVM>().ReverseMap();
+            CreateMap<StoreOpenTimes, StoreOpenTimesVM>().ReverseMap();
+
+            
 
 
 

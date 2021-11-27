@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace wedeliver.Domain.Enums
 {
-    public enum Cities
+    public enum ResturantWokingStatus
     {
+        Online = 1,
+        Ofline = 2,
+        Busy = 3,
+        Closed = 4,
+        Available = 5
     }
 }

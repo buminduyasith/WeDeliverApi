@@ -16,7 +16,7 @@ namespace wedeliver.Domain.Entities
         public string Street { get; set; }
         public string PostalCode { get; set; }
         public Provinces ProvinceID { get; set; }
-        public Cities CityID { get; set; }
+        public Districts Districts { get; set; }
 
 
     }

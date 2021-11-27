@@ -20,7 +20,7 @@ namespace wedeliver.Application.Features.Resturants.Queries.ResturantsSearch
     public class ResturantsSearchQuery:IRequest<ResturantListVM>
     {
         public string Name { get; set; }
-        public Cities City { get; set; }
+        public Districts City { get; set; }
         public FoodStoreCategory FoodCategory { get; set; }
         public double Rating { get; set; }
         public PaginationOption Pagination { get; set; }
@@ -51,47 +51,62 @@ namespace wedeliver.Application.Features.Resturants.Queries.ResturantsSearch
             var activeResturantsQuery = GetResturants(request);
 
             var paginationData = await activeResturantsQuery.PaginateAsync(request?.Pagination?.Page, request?.Pagination?.PageSize);
-            
-           
-            //var viewModels = paginationData.Results.Select(x => x.GetWorkItemVMAsync(_mapper, _identityService, _context, _identityUserService).Result).ToList();
 
-            throw new NotImplementedException();
+
+            //var viewModels = paginationData.Results.Select(x =>
+            //x.GetWorkItemVMAsync(_mapper, _identityService, _context, _identityUserService).Result).ToList();
+
+            var viewModels = paginationData.Results.Select(x => x.GetResturantVMAsync(_mapper, _context).Result).ToList();
+
+            return new ResturantListVM
+            {
+                Page = paginationData.Page,
+                NumberOfPages = paginationData.NumberOfPages,
+                TotalItems = paginationData.TotalItems,
+                PageSize = paginationData.PageSize,
+                DisplayCount = paginationData.DisplayCount,
+                DisplayStart = paginationData.DisplayStart,
+                DisplayEnd = paginationData.DisplayEnd,
+                Lists = viewModels
+            };
+
+            
         }
 
-        public IQueryable<RestaurantVM> GetResturants(ResturantsSearchQuery request)
+        public IQueryable<Restaurant> GetResturants(ResturantsSearchQuery request)
         {
             //get only active res
             Expression<Func<Restaurant, bool>> activePredicate = o => o.Active == true;
 
             var query = _context.Restaurants
                 .Include(x => x.Location)
-                .Include(x=>x.RestaurantRating)
-                .Where(activePredicate);
+                .Include(x => x.RestaurantRating);
+               // .Where(activePredicate);
 
-            if(request.SearchOperator == SearchOperator.Search)
-            {
-                request.Name = request.Name.ToLower();
-                query = query.Where(e => e.Name.ToLower().StartsWith(request.Name));
+            //if(request.SearchOperator == SearchOperator.Search)
+            //{
+            //    request.Name = request.Name.ToLower();
+            //    query = query.Where(e => e.Name.ToLower().StartsWith(request.Name));
                              
-            }
+            //}
 
-            else if (request.SearchOperator == SearchOperator.Contains)
-            {
-                request.Name = request.Name.ToLower();
-                query = query.Where(e => e.Name.ToLower().StartsWith(request.Name));
-            }
+            //else if (request.SearchOperator == SearchOperator.Contains)
+            //{
+            //    request.Name = request.Name.ToLower();
+            //    query = query.Where(e => e.Name.ToLower().StartsWith(request.Name));
+            //}
 
-            else if(request.SearchOperator == SearchOperator.Filter)
-            {
-                query = query.Where(e => e.Location.CityID == request.City);
-            }
+            //else if(request.SearchOperator == SearchOperator.Filter)
+            //{
+            //    query = query.Where(e => e.Location.CityID == request.City);
+            //}
 
-            
+
             //testing query
+            query.OrderByDescending(x => x.Id);
+            return query;
 
-
-
-                throw new NotImplementedException();
+               
         }
     }
 }
