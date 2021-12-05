@@ -10,6 +10,7 @@ using wedeliver.Application.Features.Foods.Queries.GetFoodList;
 using wedeliver.Application.ViewModels;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 using wedeliver.webapi.Controllers.Base;
+using wedeliver.Application.Features.Foods.Queries.GetFoodByRestaurantId;
 
 namespace wedeliver.webapi.Controllers.Foods
 {
@@ -24,6 +25,14 @@ namespace wedeliver.webapi.Controllers.Foods
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddFoodItem(AddFoodItemCommand addFoodItemCommand)
+        {
+            var result = await Mediator.Send(addFoodItemCommand);
+            return Ok(result);
+        }
+
+
         [HttpGet("{id}", Name = "GetFoodItemById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,13 +43,18 @@ namespace wedeliver.webapi.Controllers.Foods
             if (result is null) return NotFound();
             return Ok(result);
         }
-       
-        [HttpPost]
-        public async Task<IActionResult> AddFoodItem(AddFoodItemCommand addFoodItemCommand)
+
+        [HttpGet("restaurants/{id}", Name = "GetFoodItemsByRestaurantId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FoodVM>> GetFoodItemsByRestaurantId(int id)
         {
-            var result = await Mediator.Send(addFoodItemCommand);
+            
+            var result = await Mediator.Send(new GetFoodByRestaurantIdQuery { Id=id});
+            if (result is null) return NotFound();
             return Ok(result);
         }
+
 
     }
 }

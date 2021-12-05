@@ -12,7 +12,7 @@ using wedeliver.Domain;
 
 namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
 {
-    class GetFoodListQueryHandler : IRequestHandler<GetFoodListQuery, List<FoodVM>>
+    public class GetFoodListQueryHandler : IRequestHandler<GetFoodListQuery, List<FoodVM>>
     {
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
