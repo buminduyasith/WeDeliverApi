@@ -26,6 +26,8 @@ namespace wedeliver.Domain.Entities
         public Rider Rider { get; set; }
         public int ShippingDetailsId { get; set; }
         public ShippingDetails ShippingDetails { get; set; }
+        public DateTime? OrderCreatedDate { get; set; }
+        public DateTime? EstimatedDate { get; set; }
         public override string ToString()
         {
             return base.ToString();
