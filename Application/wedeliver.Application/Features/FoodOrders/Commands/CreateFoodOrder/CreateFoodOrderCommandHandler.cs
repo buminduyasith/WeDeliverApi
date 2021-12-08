@@ -22,11 +22,13 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CreateFoodOrderCommandHandler> _logger;
+        private readonly IApplicationDbContext _dbContext;
 
         public CreateFoodOrderCommandHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
             IMapper mapper, ILogger<CreateFoodOrderCommandHandler> logger,
-            IFoodOrderDetailsRepository foodOrderDetailsRepository)
+            IFoodOrderDetailsRepository foodOrderDetailsRepository,
+            IApplicationDbContext dbContext)
       
 
         {
@@ -36,6 +38,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
 
             _foodRepository = foodRepository;
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
+            _dbContext = dbContext;
 
         }
 
@@ -78,12 +81,17 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
 
             };
 
+            var shippingDetailsModel = _mapper.Map<ShippingDetails>(request.ShippingDetails);
+
+
+           var CreatedshippingDetailsModel = await  _dbContext.ShippingDetails.AddAsync(shippingDetailsModel);
+
+
+            foodOrder.ShippingDetails = CreatedshippingDetailsModel.Entity;
+
             var createdFoodOrder =  await _foodOrderRepository.AddAsync(foodOrder);
 
         
-
-           
-
 
             _logger.LogInformation("createdFoodOrder", createdFoodOrder.ToString());
 
