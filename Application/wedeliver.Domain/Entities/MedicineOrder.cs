@@ -10,18 +10,25 @@ namespace wedeliver.Domain.Entities
 {
     public class MedicineOrder: EntityBase
     {
-        public string MedsDiscription { get; set; }
-        public string PrescriptionUrl { get; set; }
+        public string OrderNo { get; set; }
+#nullable enable
+        public string? MedsItemIntext { get; set; }
+        #nullable enable
+        public string? PrescriptionUrl { get; set; }
         public int ClientID { get; set; }
         public Client Client { get; set; }
         public string Note { get; set; }
-        public double  Price { get; set; }
-        public int PharmacyID { get; set; }
+        public double?  Price { get; set; }
+        public int? PharmacyID { get; set; }
         public Pharmacy Pharmacy { get; set; }
-        public int RiderId { get; set; }
+        public int? RiderId { get; set; }
         public Rider Rider { get; set; }
         public MedicineOrderStatus MedicineOrderStatus { get; set; }
         public string BillURl { get; set; }
         public OrderType OrderType { get; set; }
+        public int ShippingDetailsId { get; set; }
+        public DateTime EstimatedDelivery { get; set; }
+        public DateTime  OrderDate { get; set; }
+        public ShippingDetails ShippingDetails { get; set; }
     }
 }
