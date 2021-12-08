@@ -96,13 +96,6 @@ namespace wedeliver.Infrastructure.Repository
             }
         }
 
-        public async Task<IdentityUser> FindByEmailAsync(string email)
-        {
-            var existingUser = await _userManager.FindByEmailAsync(email);
-
-            return existingUser;
-        }
-
         public async Task CreateCustomerUser(CreateCustomerUserCommand user)
         {
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
@@ -111,7 +104,7 @@ namespace wedeliver.Infrastructure.Repository
 
             if (isCreated.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
+                await _userManager.AddToRoleAsync(newUser, UserRoles.Client.ToString());
 
                 var client = new Client
                 {
@@ -153,7 +146,7 @@ namespace wedeliver.Infrastructure.Repository
 
             if (isCreated.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, UserRoles.RestaurantAdmin.ToString());
+                await _userManager.AddToRoleAsync(newUser, UserRoles.Rider.ToString());
 
                 var rider = new Rider
                 {
@@ -189,6 +182,13 @@ namespace wedeliver.Infrastructure.Repository
             }
         }
 
+        public async Task<IdentityUser> FindByEmailAsync(string email)
+        {
+            var existingUser = await _userManager.FindByEmailAsync(email);
+
+            return existingUser;
+        }
+
         public async Task<UserVM> UserLogin(string email, string password)
         {
             var user = await FindByEmailAsync(email);
@@ -221,20 +221,29 @@ namespace wedeliver.Infrastructure.Repository
 
                     else if (userRole.Contains(UserRoles.Client.ToString()))
                     {
+                        var client = await _dbContext.Clients.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
+                            UserIdentityId = user.Id,
+                            Id = client.Id,
+                            Name=client.FName
 
                         };
                     }
 
-                    else if (userRole.Contains(UserRoles.Client.ToString()))
+                    else if (userRole.Contains(UserRoles.Rider.ToString()))
                     {
+                        var Riders = await _dbContext.Riders.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
+                            UserIdentityId = user.Id,
+                            Id = Riders.Id,
+                            Name = Riders.FName
 
                         };
 
