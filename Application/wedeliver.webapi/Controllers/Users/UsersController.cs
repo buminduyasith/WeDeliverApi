@@ -16,7 +16,7 @@ namespace wedeliver.webapi.Controllers.Users
    
     public class UsersController : BaseApiController
     {
-        [HttpPost("/login",Name = "UserLogin")]
+        [HttpPost("login",Name = "UserLogin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserVM>> UserLogin([FromBody] UserLoginCommand command)
@@ -27,7 +27,7 @@ namespace wedeliver.webapi.Controllers.Users
 
         }
 
-        [HttpPost("/register/customer",Name = "CustomerCreate")]
+        [HttpPost("register/customer",Name = "CustomerCreate")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<MediatR.Unit>> CustomerCreate([FromBody] CreateCustomerUserCommand command)
@@ -38,7 +38,7 @@ namespace wedeliver.webapi.Controllers.Users
 
         }
 
-        [HttpPost("/register/rider",Name = "RiderCreate")]
+        [HttpPost("register/rider",Name = "RiderCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<MediatR.Unit>> RiderCreate([FromBody] CreateRiderUserCommand command)
@@ -48,7 +48,7 @@ namespace wedeliver.webapi.Controllers.Users
 
         }
 
-        [HttpPost("/register/foodstore",Name = "FoodStoreAdminCreate")]
+        [HttpPost("register/foodstore",Name = "FoodStoreAdminCreate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> FoodStoreAdminCreate([FromBody] CreateRestaurantUserCommand command)
