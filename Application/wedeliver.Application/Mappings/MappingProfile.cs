@@ -46,9 +46,9 @@ namespace wedeliver.Application.Mappings
 
             CreateMap<RestaurantRating, RestaurantRatingVM>().ReverseMap();
             CreateMap<StoreOpenTimes, StoreOpenTimesVM>().ReverseMap();
+            CreateMap<ShippingDetails, ShippingDetailsVM>().ReverseMap();
 
             
-
 
 
         }
