@@ -11,7 +11,7 @@ namespace wedeliver.Domain.Entities
     public class MedicineOrder: EntityBase
     {
         public string OrderNo { get; set; }
-#nullable enable
+        #nullable enable
         public string? MedsItemIntext { get; set; }
         #nullable enable
         public string? PrescriptionUrl { get; set; }
@@ -24,7 +24,7 @@ namespace wedeliver.Domain.Entities
         public int? RiderId { get; set; }
         public Rider Rider { get; set; }
         public MedicineOrderStatus MedicineOrderStatus { get; set; }
-        public string BillURl { get; set; }
+        public string? BillURl { get; set; }
         public OrderType OrderType { get; set; }
         public int ShippingDetailsId { get; set; }
         public DateTime EstimatedDelivery { get; set; }
