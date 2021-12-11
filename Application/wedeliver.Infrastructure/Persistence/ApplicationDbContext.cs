@@ -45,6 +45,7 @@ namespace wedeliver.Infrastructure.Persistence
         public DbSet<ShippingDetails> ShippingDetails { get; set; }
         public DbSet<RestaurantRating> RestaurantRating { get; set; }
         public DbSet<StoreOpenTimes> StoreOpenTimes { get; set; }
+        public DbSet<Pharmacy> Pharmacies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
