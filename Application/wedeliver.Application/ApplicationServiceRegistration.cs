@@ -9,6 +9,7 @@ using wedeliver.Application.Services;
 using wedeliver.Application.Configurations;
 using Microsoft.Extensions.Configuration;
 using wedeliver.Application.Services.EmailSenderService;
+using wedeliver.Application.Services.PushNotification;
 
 namespace wedeliver.Application
 {
@@ -26,6 +27,8 @@ namespace wedeliver.Application
             services.AddScoped<IOrderStatusService, OrderStatusService>();
 
             services.AddTransient<IEmailSenderService, EmailSenderService>();
+
+            services.AddScoped<IPushNotification, PushNotification>();
 
             var emailConfig = configuration
            .GetSection("EmailConfiguration")
