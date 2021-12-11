@@ -6,12 +6,15 @@ using wedeliver.Application.Behaviours;
 using FluentValidation;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Services;
+using wedeliver.Application.Configurations;
+using Microsoft.Extensions.Configuration;
+using wedeliver.Application.Services.EmailSenderService;
 
 namespace wedeliver.Application
 {
     public static class ApplicationServiceRegistration
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -21,6 +24,13 @@ namespace wedeliver.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             services.AddScoped<IOrderStatusService, OrderStatusService>();
+
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
+
+            var emailConfig = configuration
+           .GetSection("EmailConfiguration")
+           .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
 
             return services;
         }
