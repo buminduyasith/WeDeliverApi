@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using wedeliver.Application.Templates.Renderer;
 using wedeliver.Application.Services.Notification;
 using wedeliver.Application.Services.EmailSenderService;
+using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -123,10 +124,12 @@ namespace wedeliver.Infrastructure.Repository
                     Active = true,
                     Location = new Location
                     {
-                        HouseNo = user.HouseNo,
-                        Province = user.Province,
+                        HouseNo = user.No,
+                        Province = user.ProvinceId.ToString(),
                         City = user.City,
                         Street = user.Street,
+                        ProvinceID = user.ProvinceId,
+                        Districts = user.DistrictsId
 
                     }
 
@@ -176,10 +179,12 @@ namespace wedeliver.Infrastructure.Repository
                     Active = true,
                     Location = new Location
                     {
-                        HouseNo = user.HouseNo,
-                        Province = user.Province,
+                        HouseNo = user.No,
+                        Province = user.ProvinceId.ToString(),
                         City = user.City,
                         Street = user.Street,
+                        ProvinceID = user.ProvinceId,
+                        Districts = user.DistrictsId
 
                     }
 
@@ -285,5 +290,59 @@ namespace wedeliver.Infrastructure.Repository
             }
         }
 
+        public async Task CreatePharmacyUser(CreatePharmacyUserCommand user)
+        {
+            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
+            var isCreated = await _userManager.CreateAsync(newUser, user.Password);
+
+
+            if (isCreated.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.Client.ToString());
+
+                var pharmacy = new Pharmacy
+                {
+                    UserId = newUser.Id,
+                    Name = user.Name,
+                    Discription = user.Discription,
+                    OwnerName= user.OwnerName,
+                    PersonalPhoneNumber = user.PersonalPhoneNumber,
+                    TelphoneNumber = user.TelphoneNumber,
+                    Active = true,
+                    Location = new Location
+                    {
+                        HouseNo = user.No,
+                        Province = user.ProvinceId.ToString(),
+                        City = user.City,
+                        Street = user.Street,
+                        ProvinceID = user.ProvinceId,
+                        Districts = user.DistrictsId
+
+                    }
+                };
+
+
+                await _dbContext.Pharmacies.AddAsync(pharmacy);
+                await _dbContext.SaveChangesAsync();
+
+                //var templatePath = "../wedeliver.Application/Templates/WelcomeRestaurantUser.html";
+                //var renderer = new RenderTemplate();
+                //var content = await renderer.Render(templatePath, new string[] { "bumindu" });
+
+                //var html = new NotificationMessage(new string[] { user.Email }, "Wedeliver Customer", content);
+
+                //await _emailSenderService.SendEmailAsync(html);
+
+                return;
+
+            }
+
+            else
+            {
+                // TODO: what if user not created propely or something went wrong in the database
+
+                throw new Exception("user not created");
+            }
+        }
     }
 }
