@@ -59,11 +59,14 @@ namespace wedeliver.Application.Features.MedicineOrders.Commands.CreateMedicineO
                 PrescriptionUrl = request.PrescriptionUrl,
                 Note = request.Note,
                 OrderType = OrderType.CashONDelivery,
-                ShippingDetails = CreatedshippingDetailsModel.Entity
-            };
+                ShippingDetails = CreatedshippingDetailsModel.Entity,
+                OrderNo = "WD-MED" + DateTime.Now.ToString("yyyyddMMhmm")
+        };
 
 
             await _dbContext.MedicineOrders.AddAsync(medicineOrder);
+
+            await _dbContext.SaveChangesAsync();
 
             return true;
         }

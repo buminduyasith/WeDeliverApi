@@ -15,6 +15,9 @@ using wedeliver.Application.Features.User.Commands.CreateRiderUser;
 using wedeliver.Application.ViewModels;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using wedeliver.Application.Templates.Renderer;
+using wedeliver.Application.Services.Notification;
+using wedeliver.Application.Services.EmailSenderService;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -25,18 +28,22 @@ namespace wedeliver.Infrastructure.Repository
         private readonly ILogger<UserRepository> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         protected readonly ApplicationDbContext _dbContext;
+        private readonly IEmailSenderService _emailSenderService;
+
 
 
 
         public UserRepository(
-             UserManager<IdentityUser> userManager,
-            IMapper mapper, ILogger<UserRepository> logger, ApplicationDbContext dbContext)
+             UserManager<IdentityUser> userManager,IEmailSenderService emailSenderService,
+
+        IMapper mapper, ILogger<UserRepository> logger, ApplicationDbContext dbContext)
 
         {
             _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext)); 
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _emailSenderService = emailSenderService;
         }
 
         public async Task CreateRestaurantUser(CreateRestaurantUserCommand user)
@@ -126,6 +133,15 @@ namespace wedeliver.Infrastructure.Repository
                 };
                 _dbContext.Clients.Add(client);
                 await _dbContext.SaveChangesAsync();
+
+                var templatePath = "../wedeliver.Application/Templates/WelcomeRestaurantUser.html";
+                var renderer = new RenderTemplate();
+                var content = await renderer.Render(templatePath, new string[] { "bumindu" });
+
+                var html = new NotificationMessage(new string[] { user.Email}, "Wedeliver Customer", content);
+
+                await _emailSenderService.SendEmailAsync(html);
+
                 return;
 
             }
