@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wedeliver.Domain.Enums;
 
 namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
 {
@@ -13,8 +14,9 @@ namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
         public string Password { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
-        public string HouseNo { get; set; }
-        public string Province { get; set; }
+        public string No { get; set; }
+        public Provinces ProvinceId { get; set; }
+        public Districts DistrictsId { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string PhoneNumber { get; set; }

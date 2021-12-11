@@ -18,8 +18,9 @@ namespace wedeliver.Application.Features.User.Commands.CreateRiderUser
         public string FName { get; set; }
         public string LName { get; set; }
         public string PersonalPhoneNumber { get; set; }
-        public string HouseNo { get; set; }
-        public string Province { get; set; }
+        public string No { get; set; }
+        public Provinces ProvinceId { get; set; }
+        public Districts DistrictsId { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string ProfilePictureUrl { get; set; }
