@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MailKit.Net.Smtp;
-using MimeKit;
 using System.Text;
 using System.Threading.Tasks;
 using wedeliver.Application.Configurations;
