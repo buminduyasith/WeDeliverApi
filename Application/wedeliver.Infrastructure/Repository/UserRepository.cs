@@ -231,13 +231,14 @@ namespace wedeliver.Infrastructure.Repository
                     if (userRole.Contains(UserRoles.RestaurantAdmin.ToString()))
                     {
                         var restaurantUser = await _dbContext.Restaurants.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
-
+                        var location = await _dbContext.Locations.FindAsync(restaurantUser.LocationId);
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
                             UserIdentityId = user.Id,
-                            Id = restaurantUser.Id
+                            Id = restaurantUser.Id,
+                            DistrictId = ((int)location.Districts)
 
                         };
                     }
@@ -245,6 +246,7 @@ namespace wedeliver.Infrastructure.Repository
                     else if (userRole.Contains(UserRoles.Client.ToString()))
                     {
                         var client = await _dbContext.Clients.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        var location = await _dbContext.Locations.FindAsync(client.LocationId);
 
                         uservm = new UserVM
                         {
@@ -252,7 +254,9 @@ namespace wedeliver.Infrastructure.Repository
                             UserRole = userRole,
                             UserIdentityId = user.Id,
                             Id = client.Id,
-                            Name=client.FName
+                            Name=client.FName,
+                            DistrictId = ((int)location.Districts)
+
 
                         };
                     }
@@ -260,13 +264,15 @@ namespace wedeliver.Infrastructure.Repository
                     else if (userRole.Contains(UserRoles.Rider.ToString()))
                     {
                         var Riders = await _dbContext.Riders.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        var location = await _dbContext.Locations.FindAsync(Riders.LocationId);
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
                             UserIdentityId = user.Id,
                             Id = Riders.Id,
-                            Name = Riders.FName
+                            Name = Riders.FName,
+                             DistrictId = ((int)location.Districts)
 
                         };
 
@@ -275,13 +281,16 @@ namespace wedeliver.Infrastructure.Repository
                     else if (userRole.Contains(UserRoles.PharmacyAdmin.ToString()))
                     {
                         var admin = await _dbContext.Pharmacies.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        var location = await _dbContext.Locations.FindAsync(admin.LocationId);
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
                             UserIdentityId = user.Id,
                             Id = admin.Id,
-                            Name = admin.Name
+                            Name = admin.Name,
+                            DistrictId = ((int)location.Districts)
+
 
                         };
 
@@ -408,6 +417,11 @@ namespace wedeliver.Infrastructure.Repository
 
                 throw new Exception("user not created");
             }
+        }
+
+        public Task<Location> GetLocation(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
