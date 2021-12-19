@@ -42,7 +42,10 @@ namespace wedeliver.Application.Mappings
                .ForMember(dest => dest.Text,
                opt => opt.MapFrom(src => src.Name))
                .ForMember(dest => dest.Value,
-               opt => opt.MapFrom(src => src.Id));
+               opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Label,
+               opt => opt.MapFrom(src => src.Name))
+               ;
 
             CreateMap<RestaurantRating, RestaurantRatingVM>().ReverseMap();
             CreateMap<StoreOpenTimes, StoreOpenTimesVM>().ReverseMap();
