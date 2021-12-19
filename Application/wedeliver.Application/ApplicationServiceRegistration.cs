@@ -30,6 +30,10 @@ namespace wedeliver.Application
 
             services.AddScoped<IPushNotification, PushNotification>();
 
+            services.AddScoped<IMedicineOrderStatusService, MedicineOrderStatusService>();
+
+            
+
             var emailConfig = configuration
            .GetSection("EmailConfiguration")
            .Get<EmailConfiguration>();

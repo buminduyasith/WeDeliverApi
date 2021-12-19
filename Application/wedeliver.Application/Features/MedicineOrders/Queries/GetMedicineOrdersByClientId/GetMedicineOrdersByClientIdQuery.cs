@@ -39,13 +39,13 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
         public async Task<IEnumerable<MedicineOrderVM>> Handle(GetMedicineOrdersByClientIdQuery request, CancellationToken cancellationToken)
         {
             Expression<Func<MedicineOrder, bool>> predicate = o => o.ClientID == request.Id;
-            var orders = await GetFoodOrder(predicate);
+            var orders = await GetMedicineOrder(predicate);
             var orderDTO = _mapper.Map<IEnumerable<MedicineOrderVM>>(orders);
             return orderDTO;
 
         }
 
-        public async Task<IEnumerable<MedicineOrder>> GetFoodOrder(Expression<Func<MedicineOrder, bool>> predicate)
+        public async Task<IEnumerable<MedicineOrder>> GetMedicineOrder(Expression<Func<MedicineOrder, bool>> predicate)
         {
             var query = _dbContext.MedicineOrders.Where(predicate);
 
