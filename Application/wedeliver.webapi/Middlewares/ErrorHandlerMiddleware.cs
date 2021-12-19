@@ -51,7 +51,11 @@ namespace wedeliver.webapi.Middlewares
                         // not found error
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
-
+                    case InvalidUserException e:
+                        // not found error
+                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        break;
+                        
                     default:
                         // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
