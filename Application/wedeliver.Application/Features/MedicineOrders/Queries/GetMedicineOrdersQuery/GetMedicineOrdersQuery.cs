@@ -13,6 +13,7 @@ using System.Threading;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
+using wedeliver.Application.Exceptions;
 
 namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrdersQuery
 {
@@ -23,6 +24,7 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
         public bool FilterByStatus { get; set; }
         public Entity Entity { get; set; }
         public MedicineOrderStatus Status { get; set; }
+        public Districts DistrictId { get; set; }
     }
 
     public class GetMedicineOrdersForPharmacyQueryQueryHandler : IRequestHandler<GetMedicineOrdersQuery, IEnumerable<MedicineOrderVM>>
@@ -46,8 +48,10 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
 
             if(request.PharmacyId !=null && request.Entity == Entity.PHARMACY) {
 
+                var user = await _dbContext.Pharmacies.FindAsync(request.PharmacyId);
 
-                Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status;
+                Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status
+                && o.ShippingDetails.District == request.DistrictId;
                 var orders = await GetMedicineOrder(predicate);
                 var orderDTO = _mapper.Map<IEnumerable<MedicineOrderVM>>(orders);
                 return orderDTO;
@@ -55,14 +59,17 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
 
             else if(request.RiderId != null && request.Entity == Entity.RIDER)
             {
+                var user = await _dbContext.Riders.FindAsync(request.PharmacyId);
 
-                Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status;
+                Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status
+                  && o.ShippingDetails.District == request.DistrictId;
+
                 var orders = await GetMedicineOrder(predicate);
                 var orderDTO = _mapper.Map<IEnumerable<MedicineOrderVM>>(orders);
                 return orderDTO;
             }
 
-            throw new Exception("something went wrong");
+            throw new BadRequestException("something went wrong");
 
 
 
@@ -76,6 +83,7 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
 
             await query.Include(x => x.Pharmacy).LoadAsync();
             await query.Include(x => x.Rider).LoadAsync();
+            await query.Include(x => x.Client).LoadAsync();
             await query.Include(x => x.ShippingDetails).LoadAsync();
 
             return await query.ToListAsync();
