@@ -14,5 +14,6 @@ namespace wedeliver.Application.ViewModels
         public string JwtKey { get; set; }
         public string UserIdentityId { get; set; }
         public int Id { get; set; }
+        public int? DistrictId { get; set; }
     }
 }
