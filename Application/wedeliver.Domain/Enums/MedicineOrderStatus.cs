@@ -16,7 +16,8 @@ namespace wedeliver.Domain.Enums
         PickedUp=6,
         Delivered=7,
         PAID=8,
-        ReadyToPickedUpBuyer=9
+        ReadyToPickedUpBuyer=9,
+        CANCELED = 10,
 
     }
 }
