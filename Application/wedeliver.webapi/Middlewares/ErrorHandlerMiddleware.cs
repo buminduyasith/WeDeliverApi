@@ -55,7 +55,11 @@ namespace wedeliver.webapi.Middlewares
                         // not found error
                         response.StatusCode = (int)HttpStatusCode.Forbidden;
                         break;
-                        
+                    case BadRequestException e:
+                        // not found error
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+
                     default:
                         // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
