@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using wedeliver.Application.Features.User.Commands.CreateAdminUser;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
@@ -17,6 +18,8 @@ namespace wedeliver.Application.Contracts.Persisternce
         Task CreateCustomerUser(CreateCustomerUserCommand command);
         Task CreateRiderrUser(CreateRiderUserCommand command);
         Task CreatePharmacyUser(CreatePharmacyUserCommand command);
+
+        Task CreateAdminUser(CreateAdminUserCommand command);
 
         Task<IdentityUser> FindByEmailAsync(string email);
        // Task<IdentityUser> FindByEmailAsync(string email);

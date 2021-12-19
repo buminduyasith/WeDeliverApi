@@ -19,6 +19,8 @@ using wedeliver.Application.Templates.Renderer;
 using wedeliver.Application.Services.Notification;
 using wedeliver.Application.Services.EmailSenderService;
 using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
+using wedeliver.Application.Exceptions;
+using wedeliver.Application.Features.User.Commands.CreateAdminUser;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -270,6 +272,36 @@ namespace wedeliver.Infrastructure.Repository
 
                     }
 
+                    else if (userRole.Contains(UserRoles.PharmacyAdmin.ToString()))
+                    {
+                        var admin = await _dbContext.Pharmacies.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        uservm = new UserVM
+                        {
+                            email = user.Email,
+                            UserRole = userRole,
+                            UserIdentityId = user.Id,
+                            Id = admin.Id,
+                            Name = admin.Name
+
+                        };
+
+                    }
+
+                    else if (userRole.Contains(UserRoles.SuperAdmin.ToString()))
+                    {
+                        var admin = await _dbContext.Admins.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        uservm = new UserVM
+                        {
+                            email = user.Email,
+                            UserRole = userRole,
+                            UserIdentityId = user.Id,
+                            Id = admin.Id,
+                            Name = admin.FName
+
+                        };
+
+                    }
+
                     return uservm;
 
                  
@@ -278,7 +310,7 @@ namespace wedeliver.Infrastructure.Repository
                 }
                 else
                 {
-                    throw new Exception("username or password is incorrect");
+                    throw new InvalidUserException("username or password is incorrect");
                 }
 
                
@@ -286,7 +318,7 @@ namespace wedeliver.Infrastructure.Repository
 
             else
             {
-                throw new Exception("Invalid User");
+                throw new InvalidUserException("Invalid User");
             }
         }
 
@@ -298,7 +330,7 @@ namespace wedeliver.Infrastructure.Repository
 
             if (isCreated.Succeeded)
             {
-                await _userManager.AddToRoleAsync(newUser, UserRoles.Client.ToString());
+                await _userManager.AddToRoleAsync(newUser, UserRoles.PharmacyAdmin.ToString());
 
                 var pharmacy = new Pharmacy
                 {
@@ -333,6 +365,39 @@ namespace wedeliver.Infrastructure.Repository
 
                 //await _emailSenderService.SendEmailAsync(html);
 
+                return;
+
+            }
+
+            else
+            {
+                // TODO: what if user not created propely or something went wrong in the database
+
+                throw new Exception("user not created");
+            }
+        }
+
+        public async Task CreateAdminUser(CreateAdminUserCommand user)
+        {
+            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Email };
+            var isCreated = await _userManager.CreateAsync(newUser, user.Password);
+
+
+            if (isCreated.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.SuperAdmin.ToString());
+
+                var admin = new Admin
+                {
+
+                    UserId = newUser.Id,
+                    FName = user.FName,
+                    LName = user.LName,
+                    PhoneNumber = user.PhoneNumber,
+
+                };
+                _dbContext.Admins.Add(admin);
+                await _dbContext.SaveChangesAsync();
                 return;
 
             }
