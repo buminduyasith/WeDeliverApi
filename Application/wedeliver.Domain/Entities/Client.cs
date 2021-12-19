@@ -12,6 +12,7 @@ namespace wedeliver.Domain.Entities
         public string UserId { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
+        public int? LocationId { get; set; }
         public Location Location { get; set; }
         public string PhoneNumber { get; set; }
         public string? FcmToken { get; set; }

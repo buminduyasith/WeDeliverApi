@@ -16,7 +16,7 @@ namespace wedeliver.Domain.Entities
         public string Discription { get; set; }
         public string TelphoneNumber { get; set; }
         public string  PersonalPhoneNumber { get; set; }
-        private int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public Location Location { get; set; }
         public ICollection<Food> Foods { get; set; } = new List<Food>();
         public FoodStoreCategory FoodCategory { get; set; }

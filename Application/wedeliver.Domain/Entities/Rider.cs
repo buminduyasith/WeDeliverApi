@@ -13,7 +13,7 @@ namespace wedeliver.Domain.Entities
         public string FName { get; set; }
         public string LName { get; set; }
         public string PersonalPhoneNumber { get; set; }
-        private int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public Location Location { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string DrivingLicenseUrl { get; set; }

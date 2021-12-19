@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using wedeliver.Infrastructure.Persistence;
 
 namespace wedeliver.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219094616_NameChangeCityToDistrictInShippingDetails")]
+    partial class NameChangeCityToDistrictInShippingDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -561,7 +563,7 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int?>("LocationId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -581,7 +583,7 @@ namespace wedeliver.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationId1");
 
                     b.ToTable("Pharmacies");
                 });
@@ -654,7 +656,7 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int?>("LocationId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -686,7 +688,7 @@ namespace wedeliver.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationId1");
 
                     b.HasIndex("StoreOpenTimesId1");
 
@@ -787,7 +789,7 @@ namespace wedeliver.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int?>("LocationId1")
                         .HasColumnType("int");
 
                     b.Property<string>("PersonalPhoneNumber")
@@ -801,7 +803,7 @@ namespace wedeliver.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationId1");
 
                     b.ToTable("Riders");
                 });
@@ -1075,7 +1077,7 @@ namespace wedeliver.Infrastructure.Migrations
                 {
                     b.HasOne("wedeliver.Domain.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
                 });
@@ -1101,7 +1103,7 @@ namespace wedeliver.Infrastructure.Migrations
                 {
                     b.HasOne("wedeliver.Domain.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId1");
 
                     b.HasOne("wedeliver.Domain.Entities.StoreOpenTimes", "StoreOpenTimes")
                         .WithMany()
@@ -1154,7 +1156,7 @@ namespace wedeliver.Infrastructure.Migrations
                 {
                     b.HasOne("wedeliver.Domain.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
                 });
