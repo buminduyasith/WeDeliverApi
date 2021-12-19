@@ -51,8 +51,7 @@ namespace wedeliver.Application.Mappings
             CreateMap<StoreOpenTimes, StoreOpenTimesVM>().ReverseMap();
             CreateMap<ShippingDetails, ShippingDetailsVM>().ReverseMap();
 
-            
-
+            CreateMap<MedicineOrder,MedicineOrderVM>().ReverseMap();
 
         }
     }
