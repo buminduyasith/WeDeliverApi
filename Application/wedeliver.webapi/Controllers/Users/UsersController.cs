@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wedeliver.Application.Features.Login.Queries;
+using wedeliver.Application.Features.User.Commands.CreateAdminUser;
 using wedeliver.Application.Features.User.Commands.CreateCustomerUser;
 using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
@@ -62,6 +63,16 @@ namespace wedeliver.webapi.Controllers.Users
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> PharmacyUserCreate([FromBody] CreatePharmacyUserCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+
+
+        [HttpPost("register/admin", Name = "AdminUserCreate")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AdminUserCreate([FromBody] CreateAdminUserCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);
