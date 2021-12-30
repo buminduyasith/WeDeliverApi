@@ -10,6 +10,7 @@ namespace wedeliver.Application.ViewModels
 {
     public class MedicineOrderVM
     {
+        public int Id { get; set; }
         public string OrderNo { get; set; }
         public string MedsItemIntext { get; set; }
         public string PrescriptionUrl { get; set; }
