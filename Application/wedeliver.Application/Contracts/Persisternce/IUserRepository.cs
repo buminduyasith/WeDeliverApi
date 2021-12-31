@@ -27,6 +27,8 @@ namespace wedeliver.Application.Contracts.Persisternce
 
         Task<UserVM> UserLogin(string email, string password);
 
+        Task<string> GetUserEmail(int id);
+
         //Task<AuthResult> VerifyToken(TokenRequest tokenRequest);
 
         //Task<AuthResult> VerifyFBIdToken(string idToken);

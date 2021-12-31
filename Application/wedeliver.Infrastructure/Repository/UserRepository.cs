@@ -17,7 +17,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using wedeliver.Application.Templates.Renderer;
 using wedeliver.Application.Services.Notification;
-using wedeliver.Application.Services.EmailSenderService;
+using wedeliver.Application.Services.EmailSenderServices;
 using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
 using wedeliver.Application.Exceptions;
 using wedeliver.Application.Features.User.Commands.CreateAdminUser;
@@ -422,6 +422,13 @@ namespace wedeliver.Infrastructure.Repository
         public Task<Location> GetLocation(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<string> GetUserEmail(int id)
+        {
+            var client = await _dbContext.Clients.FindAsync(id);
+            var existingUser = await _userManager.FindByIdAsync(client.UserId);
+            return existingUser.Email;
         }
     }
 }
