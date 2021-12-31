@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Configurations;
 using wedeliver.Application.Contracts.Persisternce;
-using wedeliver.Application.Services.EmailSenderService;
+using wedeliver.Application.Services.EmailSenderServices;
 using wedeliver.Application.Services.Notification;
 using wedeliver.Application.Templates.Renderer;
 using wedeliver.Application.ViewModels;
