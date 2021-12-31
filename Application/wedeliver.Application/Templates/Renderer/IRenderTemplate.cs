@@ -9,5 +9,6 @@ namespace wedeliver.Application.Templates.Renderer
     public interface IRenderTemplate
     {
         Task<string> Render(string viewPath, object[] model);
+        string GenerateTemplate(string templateTag, Dictionary<string, string> data);
     }
 }
