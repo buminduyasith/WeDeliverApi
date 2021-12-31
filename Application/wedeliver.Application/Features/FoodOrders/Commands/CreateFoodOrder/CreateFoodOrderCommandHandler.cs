@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
+using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 
@@ -23,12 +24,13 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
         private readonly IMapper _mapper;
         private readonly ILogger<CreateFoodOrderCommandHandler> _logger;
         private readonly IApplicationDbContext _dbContext;
+        private readonly IFoodOrderInvoice _foodOrderInvoice;
 
         public CreateFoodOrderCommandHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
             IMapper mapper, ILogger<CreateFoodOrderCommandHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository,
-            IApplicationDbContext dbContext)
+            IApplicationDbContext dbContext, IFoodOrderInvoice foodOrderInvoice)
       
 
         {
@@ -39,6 +41,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
             _foodRepository = foodRepository;
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
             _dbContext = dbContext;
+            _foodOrderInvoice = foodOrderInvoice;
 
         }
 
@@ -104,8 +107,12 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
             returnFoodOrder.RestaurantName = restaurant.Name;
             returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
 
+          //  await _dbContext.SaveChangesAsync();
 
 
+            await _foodOrderInvoice.process(foodOrder.Id);
+
+          
 
 
             return returnFoodOrder;
