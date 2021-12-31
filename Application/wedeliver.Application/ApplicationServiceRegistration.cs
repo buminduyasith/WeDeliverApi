@@ -8,8 +8,11 @@ using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Services;
 using wedeliver.Application.Configurations;
 using Microsoft.Extensions.Configuration;
-using wedeliver.Application.Services.EmailSenderService;
+using wedeliver.Application.Services.EmailSenderServices;
 using wedeliver.Application.Services.PushNotification;
+using wedeliver.Application.Services.Pdf;
+using Wkhtmltopdf.NetCore;
+using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
 
 namespace wedeliver.Application
 {
@@ -32,7 +35,12 @@ namespace wedeliver.Application
 
             services.AddScoped<IMedicineOrderStatusService, MedicineOrderStatusService>();
 
-            
+            services.AddScoped<IPdfGenerateService, PdfGenerateService>();
+            services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
+
+            services.AddScoped<IFoodOrderInvoice, FoodOrderInvoice>();
+
+            services.AddWkhtmltopdf();
 
             var emailConfig = configuration
            .GetSection("EmailConfiguration")
