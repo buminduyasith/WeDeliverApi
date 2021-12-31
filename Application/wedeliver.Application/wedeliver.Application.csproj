@@ -22,10 +22,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\wedeliver.Domain\wedeliver.Domain.csproj" />
+    <ProjectReference Include="..\Wkhtmltopdf.NetCore\Wkhtmltopdf.NetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Features\Foods\ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\Invoice\WedeliverInvoice.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

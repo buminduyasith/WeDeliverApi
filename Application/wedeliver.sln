@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wedeliver.webapi", "wedeliver.webapi\wedeliver.webapi.csproj", "{18C6E7DF-2DBC-489D-BCB7-49AB3F85395F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wedeliver.Application", "wedeliver.Application\wedeliver.Application.csproj", "{10AC1B3C-6CC3-4086-B84B-0883DCFD1242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wedeliver.Application", "wedeliver.Application\wedeliver.Application.csproj", "{10AC1B3C-6CC3-4086-B84B-0883DCFD1242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wedeliver.Domain", "wedeliver.Domain\wedeliver.Domain.csproj", "{D69907D0-4066-4E36-A974-85952B00FF02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wedeliver.Domain", "wedeliver.Domain\wedeliver.Domain.csproj", "{D69907D0-4066-4E36-A974-85952B00FF02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wedeliver.Infrastructure", "wedeliver.Infrastructure\wedeliver.Infrastructure.csproj", "{50F5CBD9-D95E-4C49-A8C3-C997B058C0B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wedeliver.Infrastructure", "wedeliver.Infrastructure\wedeliver.Infrastructure.csproj", "{50F5CBD9-D95E-4C49-A8C3-C997B058C0B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wkhtmltopdf.NetCore", "Wkhtmltopdf.NetCore\Wkhtmltopdf.NetCore.csproj", "{75B7AC71-B769-4041-AF30-6CD31486027D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{50F5CBD9-D95E-4C49-A8C3-C997B058C0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50F5CBD9-D95E-4C49-A8C3-C997B058C0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50F5CBD9-D95E-4C49-A8C3-C997B058C0B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75B7AC71-B769-4041-AF30-6CD31486027D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75B7AC71-B769-4041-AF30-6CD31486027D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75B7AC71-B769-4041-AF30-6CD31486027D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75B7AC71-B769-4041-AF30-6CD31486027D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
