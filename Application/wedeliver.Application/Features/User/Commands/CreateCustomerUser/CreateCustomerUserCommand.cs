@@ -14,11 +14,11 @@ namespace wedeliver.Application.Features.User.Commands.CreateCustomerUser
         public string Password { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
-        public string No { get; set; }
-        public Provinces ProvinceId { get; set; }
-        public Districts DistrictsId { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
+        public string? No { get; set; }
+        public Provinces? ProvinceId { get; set; }
+        public Districts? DistrictsId { get; set; }
+        public string? City { get; set; }
+        public string? Street { get; set; }
         public string PhoneNumber { get; set; }
     }
 }

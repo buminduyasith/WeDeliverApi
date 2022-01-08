@@ -19,7 +19,7 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
     public class FoodOrderInvoice : IFoodOrderInvoice
     {
         private const string FOOD_ORDER_INVOICE_TEMPLATE_PATH= "Templates/Invoice/WedeliverInvoice.html";
-        private readonly IPdfGenerateService _pdfservice;
+       private readonly IPdfGenerateService _pdfservice;
 
         private readonly ILogger _logger;
 
@@ -27,7 +27,8 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
         private readonly IApplicationDbContext _dbContext;
         private readonly IUserRepository _userRepository;
         private readonly IEmailSenderService _emailSenderService;
-        public FoodOrderInvoice(IPdfGenerateService pdfservice,ILogger<FoodOrderInvoice> logger, 
+        public FoodOrderInvoice(IPdfGenerateService pdfservice,
+            ILogger<FoodOrderInvoice> logger, 
             IMapper mapper, IApplicationDbContext dbContext,IUserRepository userRepository,IEmailSenderService emailSenderService)
         {
            
@@ -93,6 +94,8 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
             var html = new NotificationMessage(new string[] { email}, "Food Order Placed", content);
 
             await _emailSenderService.SendEmailAsync(html);
+
+           await _pdfservice.Create("Templates/Invoice/WedeliverInvoice.html", data, foodOrderId);
 
             return true;
 

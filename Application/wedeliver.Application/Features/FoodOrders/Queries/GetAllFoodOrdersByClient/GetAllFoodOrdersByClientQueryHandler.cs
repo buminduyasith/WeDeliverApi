@@ -43,6 +43,7 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersByCl
         {
             Expression<Func<FoodOrder, bool>> predicate = o => o.ClientID == request.ClientId;
             var orders = await GetFoodOrder(predicate);
+            orders = orders.OrderByDescending(x => x.CreateDate);
             var foodOrderDTO = _mapper.Map<IEnumerable<FoodOrderVM>>(orders);
             return foodOrderDTO;
         }

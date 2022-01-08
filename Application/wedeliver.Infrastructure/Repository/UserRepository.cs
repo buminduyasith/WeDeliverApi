@@ -124,16 +124,16 @@ namespace wedeliver.Infrastructure.Repository
                     LName = user.LName,
                     PhoneNumber = user.PhoneNumber,
                     Active = true,
-                    Location = new Location
-                    {
-                        HouseNo = user.No,
-                        Province = user.ProvinceId.ToString(),
-                        City = user.City,
-                        Street = user.Street,
-                        ProvinceID = user.ProvinceId,
-                        Districts = user.DistrictsId
+                    //Location = new Location
+                    //{
+                    //    HouseNo = user.No,
+                    //    Province = user.ProvinceId.ToString(),
+                    //    City = user.City,
+                    //    Street = user.Street,
+                    //    ProvinceID = user.ProvinceId,
+                    //    Districts = user.DistrictsId
 
-                    }
+                    //}
 
                 };
                 _dbContext.Clients.Add(client);

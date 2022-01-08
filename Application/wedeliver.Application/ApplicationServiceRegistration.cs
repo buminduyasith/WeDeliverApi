@@ -13,6 +13,8 @@ using wedeliver.Application.Services.PushNotification;
 using wedeliver.Application.Services.Pdf;
 using Wkhtmltopdf.NetCore;
 using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
+using wedeliver.Application.Services.DocumentUplaod;
+using wedeliver.Application.Services.FoodOrderServices;
 
 namespace wedeliver.Application
 {
@@ -35,17 +37,28 @@ namespace wedeliver.Application
 
             services.AddScoped<IMedicineOrderStatusService, MedicineOrderStatusService>();
 
-            services.AddScoped<IPdfGenerateService, PdfGenerateService>();
-            services.AddScoped<IHtmlToPdfConverter, HtmlToPdfConverter>();
+            services.AddTransient<IPdfGenerateService, PdfGenerateService>();
+            services.AddTransient<IHtmlToPdfConverter, HtmlToPdfConverter>();
 
-            services.AddScoped<IFoodOrderInvoice, FoodOrderInvoice>();
+            services.AddTransient<IFoodOrderInvoice, FoodOrderInvoice>();
 
+            services.AddScoped<IDocumentStorageService, DocumentStorageService>();
+            services.AddTransient<IFoodOrderService, FoodOrderService>();
+
+            services.AddTransient<IGeneratePdf, GeneratePdf>();
+
+            
             services.AddWkhtmltopdf();
 
             var emailConfig = configuration
            .GetSection("EmailConfiguration")
            .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
+
+            var firebaseStorageConfig = configuration
+           .GetSection("FirebaseStorageConfig")
+           .Get<FirebaseStorageConfiguration>();
+            services.AddSingleton(firebaseStorageConfig);
 
             return services;
         }

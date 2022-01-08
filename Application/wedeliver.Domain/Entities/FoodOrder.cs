@@ -28,6 +28,7 @@ namespace wedeliver.Domain.Entities
         public ShippingDetails ShippingDetails { get; set; }
         public DateTime? OrderCreatedDate { get; set; }
         public DateTime? EstimatedDate { get; set; }
+        public string? InvoiceUrl { get; set; }
         public override string ToString()
         {
             return base.ToString();

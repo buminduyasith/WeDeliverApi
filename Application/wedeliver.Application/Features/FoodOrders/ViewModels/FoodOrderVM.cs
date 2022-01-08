@@ -23,5 +23,7 @@ namespace wedeliver.Application.Features.FoodOrders.ViewModels
         public string RestaurantName { get; set; }
         public int RestaurantId { get; set; }
         public string TelphoneNumber { get; set; }
+        public DateTime? OrderCreatedDate { get; set; }
+        public string CreateDate { get; set; }
     }
 }

@@ -8,6 +8,8 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using wedeliver.Application.Services.DocumentUplaod;
+using wedeliver.Application.Services.FoodOrderServices;
 
 namespace wedeliver.Application.Services.Pdf
 {
@@ -15,15 +17,21 @@ namespace wedeliver.Application.Services.Pdf
     {
         private readonly IGeneratePdf _generatePdf;
 
+        private readonly IDocumentStorageService _uploadService;
+
         static readonly Regex regex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
 
         private readonly ILogger _logger;
 
+        private readonly IFoodOrderService _foodOrderService;
 
-        public PdfGenerateService(IGeneratePdf generatePdf,ILogger<PdfGenerateService> logger)
+
+        public PdfGenerateService(IFoodOrderService foodOrderService, IGeneratePdf generatePdf,ILogger<PdfGenerateService> logger, IDocumentStorageService uploadService)
         {
             _generatePdf = generatePdf;
             _logger = logger;
+            _uploadService = uploadService;
+            _foodOrderService = foodOrderService;
         }
         public async Task<bool> Create(string templateTag, Dictionary<string, string> data, int userId)
         {
@@ -68,9 +76,13 @@ namespace wedeliver.Application.Services.Pdf
                 }
 
                 template = Replace(template, data);
+
                 var documentData = _generatePdf.GetPDF(template, headerHtmlPath, footerHtmlPath);
 
-                
+                string fileURL = await _uploadService.UploadDocument(documentData);
+
+                await _foodOrderService.SaveInvoiceDownloadableURL(fileURL, userId);
+
 
                 /*   int docTypeId = await _context.AttachmentTypes.Where(x => x.Id == (int)AttachmentTypeEnum.PaymentReceipt).Select(x => x.EnadocDoumentTypeId).FirstOrDefaultAsync();
 
