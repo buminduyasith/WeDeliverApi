@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wedeliver.Application.Contracts.Persisternce;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
+using wedeliver.Application.Services.FoodOrderServices;
 using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
@@ -25,12 +26,16 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
         private readonly ILogger<CreateFoodOrderCommandHandler> _logger;
         private readonly IApplicationDbContext _dbContext;
         private readonly IFoodOrderInvoice _foodOrderInvoice;
+       private readonly IFoodOrderService _foodOrderService;
 
         public CreateFoodOrderCommandHandler(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
             IMapper mapper, ILogger<CreateFoodOrderCommandHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository,
-            IApplicationDbContext dbContext, IFoodOrderInvoice foodOrderInvoice)
+            IFoodOrderService foodOrderService,
+            IApplicationDbContext dbContext,
+            IFoodOrderInvoice foodOrderInvoice
+            )
       
 
         {
@@ -42,80 +47,22 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
             _dbContext = dbContext;
             _foodOrderInvoice = foodOrderInvoice;
+            _foodOrderService = foodOrderService;
 
         }
-
+        
         
         public async Task<FoodOrderVM> Handle(CreateFoodOrderCommand request, CancellationToken cancellationToken)
         {
-            //throw new NotImplementedException();
+           
 
-            var FoodOrderRequestDtoList = request.ItemList;
-            var totalPrice = 0.00;
-            var foodOrderDetailList = new List<FoodOrderDetails>();
-            var totalQty = 0;
-
-            foreach (var item in FoodOrderRequestDtoList)
-            {
-                var foodItem = await _foodRepository.GetByIdAsync(item.FoodId);
-                if (foodItem is null) throw new KeyNotFoundException("item not found");
-                totalPrice += foodItem.Price * item.Qty;
-                totalQty += item.Qty;
-                var foodOrderDetail = new FoodOrderDetails { FoodId = foodItem.Id, Price = foodItem.Price, Qty = item.Qty };
-                var createdFoodOrderDetail = await _foodOrderDetailsRepository.AddAsync(foodOrderDetail);
-                foodOrderDetailList.Add(createdFoodOrderDetail);
-            }
-
-
-            //check client is exist
-
-            var orderNo = "WD" + DateTime.Now.ToString("yyyyddMMhmm");
-            var foodOrder = new FoodOrder
-            {
-                ClientID = request.ClientID,
-                FoodOrderStatus = FoodOrderStatus.Pending,
-                ItemList = foodOrderDetailList,
-                Qty = totalQty,
-                Note = request.Note,
-                OrderType = request.OrderType,
-                RestaurantId = request.RestaurantId,
-                Total = totalPrice,
-                OrderNo = orderNo,
-
-            };
-
-            var shippingDetailsModel = _mapper.Map<ShippingDetails>(request.ShippingDetails);
-
-
-           var CreatedshippingDetailsModel = await  _dbContext.ShippingDetails.AddAsync(shippingDetailsModel);
-
-
-            foodOrder.ShippingDetails = CreatedshippingDetailsModel.Entity;
-
-            var createdFoodOrder =  await _foodOrderRepository.AddAsync(foodOrder);
-
-        
-
-            _logger.LogInformation("createdFoodOrder", createdFoodOrder.ToString());
-
-
-
-            var returnFoodOrder  = _mapper.Map<FoodOrderVM>(createdFoodOrder);
-
-            var restaurant = await _foodOrderRepository.GetRestaurantDetails(request.RestaurantId);
-
-            returnFoodOrder.RestaurantName = restaurant.Name;
-            returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
-
-          //  await _dbContext.SaveChangesAsync();
-
-
-            await _foodOrderInvoice.process(foodOrder.Id);
+             var returnFoodOrder =await _foodOrderService.CreateFoodOrder(request);
 
           
+            await _foodOrderInvoice.process(returnFoodOrder.Id);
 
-
-            return returnFoodOrder;
+      
+            return await Task.FromResult<FoodOrderVM>(new FoodOrderVM());
         }
     }
 }
