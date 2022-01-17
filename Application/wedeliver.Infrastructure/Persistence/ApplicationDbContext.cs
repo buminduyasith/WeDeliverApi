@@ -56,10 +56,24 @@ namespace wedeliver.Infrastructure.Persistence
 
         }
 
+        public void EntityStateDetached(Object obj)
+        {
+            Entry(obj).State = EntityState.Detached;
+            //ChangeTracker.DetectChanges();
+            /*
+             foreach (var entry in ChangeTracker.Entries<EntityBase>())
+             {
+                 Entry(entry).State = EntityState.Detached;
+
+
+             }*/
+        }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             foreach (var entry in ChangeTracker.Entries<EntityBase>())
             {
+               
                 switch (entry.State)
                 {
                     case EntityState.Added:

@@ -13,7 +13,7 @@ using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
 using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace wedeliver.Application.Services.FoodOrderServices
 {
@@ -98,10 +98,10 @@ namespace wedeliver.Application.Services.FoodOrderServices
 
             var returnFoodOrder = _mapper.Map<FoodOrderVM>(createdFoodOrder);
 
-            var restaurant = await _foodOrderRepository.GetRestaurantDetails(request.RestaurantId);
+            //var restaurant = await _foodOrderRepository.GetRestaurantDetails(request.RestaurantId);
 
-            returnFoodOrder.RestaurantName = restaurant.Name;
-            returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
+           // returnFoodOrder.RestaurantName = restaurant.Name;
+            //returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
 
             return returnFoodOrder;
 
@@ -109,11 +109,23 @@ namespace wedeliver.Application.Services.FoodOrderServices
 
         public async Task<bool> SaveInvoiceDownloadableURL(string url,int id)
         {
-            var foodOrder = await _dbContext.FoodOrder.FindAsync(id);
+            // using var context = IApplicationDbContext;
+         
+
+            //var foodOrder = await _dbContext.FoodOrder.FirstOrDefaultAsync(X => X.Id == id);
+
+            var foodOrder = await _dbContext.FoodOrder.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            _dbContext.EntityStateDetached(foodOrder);
 
             foodOrder.InvoiceUrl = url;
 
-            await _dbContext.SaveChangesAsync();
+            FoodOrder UpdatedOrder = foodOrder; 
+
+            // _dbContext.FoodOrder.Remove(foodOrder);
+            _dbContext.FoodOrder.Update(UpdatedOrder);
+
+           // await _dbContext.SaveChangesAsync();
 
             return true;
 

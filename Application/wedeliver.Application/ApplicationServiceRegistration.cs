@@ -15,6 +15,7 @@ using Wkhtmltopdf.NetCore;
 using wedeliver.Application.Services.Pdf.FoodOrderInvoice;
 using wedeliver.Application.Services.DocumentUplaod;
 using wedeliver.Application.Services.FoodOrderServices;
+using wedeliver.Application.Services.StandedMessage;
 
 namespace wedeliver.Application
 {
@@ -38,18 +39,23 @@ namespace wedeliver.Application
             services.AddScoped<IMedicineOrderStatusService, MedicineOrderStatusService>();
 
             services.AddTransient<IPdfGenerateService, PdfGenerateService>();
+
             services.AddTransient<IHtmlToPdfConverter, HtmlToPdfConverter>();
 
             services.AddTransient<IFoodOrderInvoice, FoodOrderInvoice>();
 
             services.AddScoped<IDocumentStorageService, DocumentStorageService>();
+
             services.AddTransient<IFoodOrderService, FoodOrderService>();
 
             services.AddTransient<IGeneratePdf, GeneratePdf>();
 
+            services.AddTransient<ISendStandardMessageService, SendStandardMessageService>();
             
             services.AddWkhtmltopdf();
 
+
+            //getting configurations
             var emailConfig = configuration
            .GetSection("EmailConfiguration")
            .Get<EmailConfiguration>();
@@ -59,6 +65,16 @@ namespace wedeliver.Application
            .GetSection("FirebaseStorageConfig")
            .Get<FirebaseStorageConfiguration>();
             services.AddSingleton(firebaseStorageConfig);
+
+            var twiloConfig = configuration
+                .GetSection("TwilioConfig")
+                .Get<TwiloConfigurations>();
+            services.AddSingleton(twiloConfig);
+
+            var JwtKeyConfig = configuration
+                .GetSection("JwtKeyConfig")
+                .Get<JwtKeyConfig>();
+            services.AddSingleton(JwtKeyConfig);
 
             return services;
         }

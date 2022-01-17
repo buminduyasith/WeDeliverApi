@@ -14,6 +14,7 @@ namespace wedeliver.Application.Contracts.Persisternce
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
         DbSet<TModel> Set<TModel>() where TModel : class;
+        void EntityStateDetached(Object obj);
         public DbSet<Food> Foods { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Client> Clients { get; set; }

@@ -21,6 +21,7 @@ namespace wedeliver.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
             //migrationBuilder.DropColumn(
             //    name: "City",
             //    table: "ShippingDetails");

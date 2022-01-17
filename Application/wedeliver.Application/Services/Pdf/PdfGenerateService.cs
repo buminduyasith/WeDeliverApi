@@ -105,7 +105,7 @@ namespace wedeliver.Application.Services.Pdf
             }
             catch (Exception ex)
             {
-                
+                _logger.LogError(ex.Message);
             }
 
             return true;

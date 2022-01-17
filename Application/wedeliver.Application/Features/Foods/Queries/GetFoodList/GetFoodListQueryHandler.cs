@@ -17,10 +17,13 @@ namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
 
-        public GetFoodListQueryHandler(IFoodRepository foodRepository, IMapper mapper)
+        private readonly ICurrentUserService _currentUserService;
+
+        public GetFoodListQueryHandler(IFoodRepository foodRepository, IMapper mapper, ICurrentUserService currentUserService)
         {
             _foodRepository = foodRepository;
             _mapper = mapper;
+            _currentUserService = currentUserService;
         }
 
         public async Task<List<FoodVM>> Handle(GetFoodListQuery request, CancellationToken cancellationToken)
@@ -32,6 +35,8 @@ namespace wedeliver.Application.Features.Foods.Queries.GetFoodList
             //      new Food(){Name="test2",Discription="test dis 2",Price=270.45},
 
             //};
+
+           
             var foods = await _foodRepository.GetAllAsync();
             var fooditemsDTO = _mapper.Map<List<FoodVM>>(foods);
             return fooditemsDTO;

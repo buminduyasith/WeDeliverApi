@@ -11,6 +11,7 @@ using wedeliver.Application.ViewModels;
 using wedeliver.Application.Features.User.Commands.CreateRestaurantUser;
 using wedeliver.webapi.Controllers.Base;
 using wedeliver.Application.Features.Foods.Queries.GetFoodByRestaurantId;
+using Microsoft.AspNetCore.Authorization;
 
 namespace wedeliver.webapi.Controllers.Foods
 {
@@ -18,6 +19,7 @@ namespace wedeliver.webapi.Controllers.Foods
     public class FoodItemsController : BaseApiController
     {
         [HttpGet]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> GetAllFoodItems()
         {
             var query = new GetFoodListQuery();
