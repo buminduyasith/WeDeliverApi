@@ -21,6 +21,10 @@ using wedeliver.Application.Services.EmailSenderServices;
 using wedeliver.Application.Features.User.Commands.CreatePharmacyUser;
 using wedeliver.Application.Exceptions;
 using wedeliver.Application.Features.User.Commands.CreateAdminUser;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using wedeliver.Application.Configurations;
+using Microsoft.IdentityModel.Tokens;
 
 namespace wedeliver.Infrastructure.Repository
 {
@@ -32,6 +36,7 @@ namespace wedeliver.Infrastructure.Repository
         private readonly UserManager<IdentityUser> _userManager;
         protected readonly ApplicationDbContext _dbContext;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly JwtKeyConfig _jwtKeyConfig;
 
 
 
@@ -39,7 +44,7 @@ namespace wedeliver.Infrastructure.Repository
         public UserRepository(
              UserManager<IdentityUser> userManager,IEmailSenderService emailSenderService,
 
-        IMapper mapper, ILogger<UserRepository> logger, ApplicationDbContext dbContext)
+        IMapper mapper, ILogger<UserRepository> logger, ApplicationDbContext dbContext,JwtKeyConfig jwtKeyConfig)
 
         {
             _userManager = userManager;
@@ -47,6 +52,7 @@ namespace wedeliver.Infrastructure.Repository
             _logger = logger;
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _emailSenderService = emailSenderService;
+            _jwtKeyConfig = jwtKeyConfig;
         }
 
         public async Task CreateRestaurantUser(CreateRestaurantUserCommand user)
@@ -232,13 +238,16 @@ namespace wedeliver.Infrastructure.Repository
                     {
                         var restaurantUser = await _dbContext.Restaurants.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
                         var location = await _dbContext.Locations.FindAsync(restaurantUser.LocationId);
+                        string token = CreateJWTKey(user.Id, restaurantUser.Id, UserRoles.RestaurantAdmin.ToString(), restaurantUser.OwnerName, user.Email);
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
                             UserIdentityId = user.Id,
                             Id = restaurantUser.Id,
-                            DistrictId = ((int)location.Districts)
+                            DistrictId = ((int)location.Districts),
+                            JwtKey = token
+
 
                         };
                     }
@@ -247,7 +256,7 @@ namespace wedeliver.Infrastructure.Repository
                     {
                         var client = await _dbContext.Clients.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
                         var location = await _dbContext.Locations.FindAsync(client.LocationId);
-
+                        string token = CreateJWTKey(user.Id, client.Id, UserRoles.Client.ToString(), client.FName, user.Email);
                         uservm = new UserVM
                         {
                             email = user.Email,
@@ -255,7 +264,8 @@ namespace wedeliver.Infrastructure.Repository
                             UserIdentityId = user.Id,
                             Id = client.Id,
                             Name=client.FName,
-                            DistrictId = ((int)location.Districts)
+                            DistrictId = ((int)location.Districts),
+                            JwtKey = token
 
 
                         };
@@ -265,6 +275,7 @@ namespace wedeliver.Infrastructure.Repository
                     {
                         var Riders = await _dbContext.Riders.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
                         var location = await _dbContext.Locations.FindAsync(Riders.LocationId);
+                        string token = CreateJWTKey(user.Id, Riders.Id, UserRoles.Rider.ToString(), Riders.FName, user.Email);
                         uservm = new UserVM
                         {
                             email = user.Email,
@@ -272,7 +283,8 @@ namespace wedeliver.Infrastructure.Repository
                             UserIdentityId = user.Id,
                             Id = Riders.Id,
                             Name = Riders.FName,
-                             DistrictId = ((int)location.Districts)
+                             DistrictId = ((int)location.Districts),
+                            JwtKey = token
 
                         };
 
@@ -282,6 +294,7 @@ namespace wedeliver.Infrastructure.Repository
                     {
                         var admin = await _dbContext.Pharmacies.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
                         var location = await _dbContext.Locations.FindAsync(admin.LocationId);
+                        string token = CreateJWTKey(user.Id, admin.Id, UserRoles.PharmacyAdmin.ToString(), admin.OwnerName, user.Email);
                         uservm = new UserVM
                         {
                             email = user.Email,
@@ -289,7 +302,8 @@ namespace wedeliver.Infrastructure.Repository
                             UserIdentityId = user.Id,
                             Id = admin.Id,
                             Name = admin.Name,
-                            DistrictId = ((int)location.Districts)
+                            DistrictId = ((int)location.Districts),
+                            JwtKey = token
 
 
                         };
@@ -299,13 +313,15 @@ namespace wedeliver.Infrastructure.Repository
                     else if (userRole.Contains(UserRoles.SuperAdmin.ToString()))
                     {
                         var admin = await _dbContext.Admins.Where(res => res.UserId == user.Id).FirstOrDefaultAsync();
+                        string token = CreateJWTKey(user.Id, admin.Id, UserRoles.SuperAdmin.ToString(), admin.FName, user.Email);
                         uservm = new UserVM
                         {
                             email = user.Email,
                             UserRole = userRole,
                             UserIdentityId = user.Id,
                             Id = admin.Id,
-                            Name = admin.FName
+                            Name = admin.FName,
+                            JwtKey = token
 
                         };
 
@@ -429,6 +445,41 @@ namespace wedeliver.Infrastructure.Repository
             var client = await _dbContext.Clients.FindAsync(id);
             var existingUser = await _userManager.FindByIdAsync(client.UserId);
             return existingUser.Email;
+        }
+
+        public string CreateJWTKey(string identityId,int id,string userRole,string name,string email)
+        {
+            var clamis = new[]
+            {
+                new Claim(ClaimTypes.Name,name),
+                new Claim(JwtRegisteredClaimNames.Email,email),
+                new Claim(ClaimTypes.Role,userRole),
+                new Claim(JwtRegisteredClaimNames.Sid,identityId),
+                new Claim(JwtRegisteredClaimNames.Sub,identityId),
+                new Claim("UserId",id.ToString()),
+            };
+
+            var keyBytes = Encoding.UTF8.GetBytes(_jwtKeyConfig.Secret);
+
+            var key = new SymmetricSecurityKey(keyBytes);
+
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                _jwtKeyConfig.Issuer,
+                 _jwtKeyConfig.Audience,
+                clamis,
+                notBefore: DateTime.Now,
+                expires: DateTime.Now.AddMinutes(5),
+                signingCredentials);
+
+            var tokenInString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return tokenInString;
+
+
+
+
         }
     }
 }
