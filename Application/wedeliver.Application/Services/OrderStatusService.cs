@@ -107,6 +107,7 @@ namespace wedeliver.Application.Services
         public async Task<IEnumerable<FoodOrderVM>> GetAllAvailableOrdersForRider()
         {
             Expression<Func<FoodOrder, bool>> predicate = o => o.FoodOrderStatus == Domain.Enums.FoodOrderStatus.ReadyToPickedUpForRider;
+                                                
           
 
             var query = _context.FoodOrder.Where(predicate);
@@ -146,6 +147,7 @@ namespace wedeliver.Application.Services
             if(foodOrder.RiderId == null)
             {
                 foodOrder.RiderId = riderAcceptOrderCommand.RiderId;
+                foodOrder.FoodOrderStatus = Domain.Enums.FoodOrderStatus.RiderAccepted;
                 _context.FoodOrder.Update(foodOrder);
                 await _context.SaveChangesAsync();
                 return true;
@@ -159,5 +161,7 @@ namespace wedeliver.Application.Services
           
 
         }
+
+      
     }
 }
