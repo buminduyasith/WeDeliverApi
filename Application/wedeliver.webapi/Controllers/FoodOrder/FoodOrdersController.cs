@@ -12,6 +12,7 @@ using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersAvailabl
 using wedeliver.Application.Features.FoodOrders.Queries.GetAllFoodOrdersByClient;
 using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByIdClient;
 using wedeliver.Application.Features.FoodOrders.Queries.GetFoodOrderByRestaurantId;
+using wedeliver.Application.Features.FoodOrders.Queries.GetOrdersForRidersByRiderId;
 using wedeliver.Application.Features.FoodOrders.ViewModels;
 using wedeliver.webapi.Controllers.Base;
 
@@ -105,7 +106,7 @@ namespace wedeliver.webapi.Controllers.FoodOrder
 
         }
 
-
+        
         [HttpGet(("riders/orderstobedelivered"), Name = "GetAllFoodOrdersAvailableForRiders")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -152,6 +153,22 @@ namespace wedeliver.webapi.Controllers.FoodOrder
            
             //first parameter need to change
             return CreatedAtRoute("UpdateOrderStatus", new { orderId = updateFoodOrderStatusCommand.OrderId }, result);
+
+        }
+
+        [HttpPost(("rider/orders"), Name = "GetAllOrdersForRiderByRiderId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FoodOrderVM>> GetAllOrdersForRiderByRiderId(GetAllOrdersForRiderByRiderIdQuery getAllOrdersForRiderByRiderId)
+        {
+            var result = await Mediator.Send(getAllOrdersForRiderByRiderId);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound();
 
         }
 
