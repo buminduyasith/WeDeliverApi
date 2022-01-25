@@ -19,27 +19,32 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
     public class FoodOrderInvoice : IFoodOrderInvoice
     {
         private const string FOOD_ORDER_INVOICE_TEMPLATE_PATH= "Templates/Invoice/WedeliverInvoice.html";
-       private readonly IPdfGenerateService _pdfservice;
+       //private readonly IPdfGenerateService _pdfservice;
 
         private readonly ILogger _logger;
 
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _dbContext;
         private readonly IUserRepository _userRepository;
-        private readonly IEmailSenderService _emailSenderService;
-        public FoodOrderInvoice(IPdfGenerateService pdfservice,
+        //private readonly IEmailSenderService _emailSenderService;
+        public FoodOrderInvoice(
+            //IPdfGenerateService pdfservice,
             ILogger<FoodOrderInvoice> logger, 
-            IMapper mapper, IApplicationDbContext dbContext,IUserRepository userRepository,IEmailSenderService emailSenderService)
+            IMapper mapper,
+            IApplicationDbContext dbContext,
+            IUserRepository userRepository
+            //IEmailSenderService emailSenderService
+            )
         {
            
             _logger = logger;
             _mapper = mapper;
             _dbContext = dbContext;
-            _pdfservice = pdfservice;
+            //_pdfservice = pdfservice;
             _userRepository = userRepository;
-            _emailSenderService = emailSenderService;
+            //_emailSenderService = emailSenderService;
         }
-        public async Task<bool> process(int foodOrderId)
+        public async Task<Dictionary<string, string>> process(int foodOrderId)
         {
 
             var data = new Dictionary<string, string>();
@@ -85,19 +90,24 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
             data.Add("items", htmlContent.ToString());
 
             
-            var renderer = new RenderTemplate();
+
+            //this 4 lines specifically for sending email part
+           /* var renderer = new RenderTemplate();
 
             var content = renderer.GenerateTemplate(FOOD_ORDER_INVOICE_TEMPLATE_PATH, data);
 
             string email = await _userRepository.GetUserEmail(foodOrder.Client.Id);
               
-            var html = new NotificationMessage(new string[] { email}, "Food Order Placed", content);
+            var html = new NotificationMessage(new string[] { email}, "Food Order Placed", content);*/
 
-            await _emailSenderService.SendEmailAsync(html);
 
-           await _pdfservice.Create("Templates/Invoice/WedeliverInvoice.html", data, foodOrderId);
 
-            return true;
+
+           // await _emailSenderService.SendEmailAsync(html);
+
+          // await _pdfservice.Create("Templates/Invoice/WedeliverInvoice.html", data, foodOrderId);
+
+            return data;
 
             //return await _pdfservice.Create("ww", data, 5);
 
@@ -119,6 +129,19 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
 
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<NotificationMessage> GetFoodOrderHtmlContentForEmail(Dictionary<string, string> data,int id)
+        {
+            var renderer = new RenderTemplate();
+
+            var content = renderer.GenerateTemplate(FOOD_ORDER_INVOICE_TEMPLATE_PATH, data);
+
+            string email = await _userRepository.GetUserEmail(id);
+
+            var html = new NotificationMessage(new string[] { email }, "Food Order Placed", content);
+
+            return html;
         }
     }
 }

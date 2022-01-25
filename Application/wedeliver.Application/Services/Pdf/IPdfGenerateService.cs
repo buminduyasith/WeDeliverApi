@@ -8,11 +8,11 @@ namespace wedeliver.Application.Services.Pdf
 {
     public interface IPdfGenerateService
     {
-         Task<bool> Create(string templateTag,
+         Task<byte[]> Create(string templateTag,
             Dictionary<string, string> data,
             int userId);
 
-        Task<bool> Create(string templateTag,
+        Task<byte[]> Create(string templateTag,
             Dictionary<string, string> data,
             int userId,
             string headerHtmlPath,

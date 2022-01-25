@@ -25,7 +25,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
         private readonly IMapper _mapper;
         private readonly ILogger<CreateFoodOrderCommandHandler> _logger;
         private readonly IApplicationDbContext _dbContext;
-        private readonly IFoodOrderInvoice _foodOrderInvoice;
+        //private readonly IFoodOrderInvoice _foodOrderInvoice;
        private readonly IFoodOrderService _foodOrderService;
 
         public CreateFoodOrderCommandHandler(IFoodOrderRepository foodOrderRepository,
@@ -33,8 +33,8 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
             IMapper mapper, ILogger<CreateFoodOrderCommandHandler> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository,
             IFoodOrderService foodOrderService,
-            IApplicationDbContext dbContext,
-            IFoodOrderInvoice foodOrderInvoice
+            IApplicationDbContext dbContext
+            //IFoodOrderInvoice foodOrderInvoice
             )
       
 
@@ -46,7 +46,7 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
             _foodRepository = foodRepository;
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
             _dbContext = dbContext;
-            _foodOrderInvoice = foodOrderInvoice;
+            //_foodOrderInvoice = foodOrderInvoice;
             _foodOrderService = foodOrderService;
 
         }
@@ -59,10 +59,10 @@ namespace wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder
              var returnFoodOrder =await _foodOrderService.CreateFoodOrder(request);
 
           
-            await _foodOrderInvoice.process(returnFoodOrder.Id);
+           // await _foodOrderInvoice.process(returnFoodOrder.Id);
 
       
-            return await Task.FromResult<FoodOrderVM>(new FoodOrderVM());
+            return await Task.FromResult<FoodOrderVM>(returnFoodOrder);
         }
     }
 }

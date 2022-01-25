@@ -17,23 +17,20 @@ namespace wedeliver.Application.Services.Pdf
     {
         private readonly IGeneratePdf _generatePdf;
 
-        private readonly IDocumentStorageService _uploadService;
-
         static readonly Regex regex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
 
         private readonly ILogger _logger;
 
-        private readonly IFoodOrderService _foodOrderService;
+      
 
-
-        public PdfGenerateService(IFoodOrderService foodOrderService, IGeneratePdf generatePdf,ILogger<PdfGenerateService> logger, IDocumentStorageService uploadService)
+        public PdfGenerateService(IGeneratePdf generatePdf,ILogger<PdfGenerateService> logger)
         {
             _generatePdf = generatePdf;
             _logger = logger;
-            _uploadService = uploadService;
-            _foodOrderService = foodOrderService;
+           
+       
         }
-        public async Task<bool> Create(string templateTag, Dictionary<string, string> data, int userId)
+        public async Task<byte[]> Create(string templateTag, Dictionary<string, string> data, int userId)
         {
             return await Create(templateTag,
                 data,
@@ -42,14 +39,12 @@ namespace wedeliver.Application.Services.Pdf
                 string.Empty);
         }
 
-        public async Task<bool> Create(string templateTag, Dictionary<string, string> data, int userId, string headerHtmlPath, string footerHtmlPath)
+        public async Task<byte[]> Create(string templateTag, Dictionary<string, string> data, int userId, string headerHtmlPath, string footerHtmlPath)
         {
-            await GeneratePdf(templateTag, data, headerHtmlPath, footerHtmlPath, userId);
-
-            return true;
+            return await GeneratePdf(templateTag, data, headerHtmlPath, footerHtmlPath, userId);
         }
 
-        private async Task<bool> GeneratePdf(string templateTag,
+        private async Task<byte []> GeneratePdf(string templateTag,
            Dictionary<string, string> data,
            string headerHtmlPath,
            string footerHtmlPath,
@@ -79,9 +74,11 @@ namespace wedeliver.Application.Services.Pdf
 
                 var documentData = _generatePdf.GetPDF(template, headerHtmlPath, footerHtmlPath);
 
-                string fileURL = await _uploadService.UploadDocument(documentData);
+                return documentData;
 
-                await _foodOrderService.SaveInvoiceDownloadableURL(fileURL, userId);
+                //string fileURL = await _uploadService.UploadDocument(documentData);
+
+                //await _foodOrderService.SaveInvoiceDownloadableURL(fileURL, userId);
 
 
                 /*   int docTypeId = await _context.AttachmentTypes.Where(x => x.Id == (int)AttachmentTypeEnum.PaymentReceipt).Select(x => x.EnadocDoumentTypeId).FirstOrDefaultAsync();
@@ -108,7 +105,7 @@ namespace wedeliver.Application.Services.Pdf
                 _logger.LogError(ex.Message);
             }
 
-            return true;
+            return null;
         }
 
         private string Replace(string content, Dictionary<string, string> dict)

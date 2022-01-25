@@ -14,6 +14,9 @@ using wedeliver.Domain.Entities;
 using wedeliver.Domain.Enums;
 using wedeliver.Application.Features.FoodOrders.Commands.CreateFoodOrder;
 using Microsoft.EntityFrameworkCore;
+using wedeliver.Application.Services.Pdf;
+using wedeliver.Application.Services.EmailSenderServices;
+using wedeliver.Application.Services.DocumentUplaod;
 
 namespace wedeliver.Application.Services.FoodOrderServices
 {
@@ -23,15 +26,23 @@ namespace wedeliver.Application.Services.FoodOrderServices
         private readonly IFoodOrderDetailsRepository _foodOrderDetailsRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<CreateFoodOrderCommandHandler> _logger;
+        private readonly ILogger<FoodOrderService> _logger;
         private readonly IApplicationDbContext _dbContext;
-        
+        private readonly IFoodOrderInvoice _foodOrderInvoice;
+        private readonly IPdfGenerateService _pdfservice;
+        private readonly IEmailSenderService _emailSenderService;
+        private readonly IDocumentStorageService _uploadService;
 
         public FoodOrderService(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
-            IMapper mapper, ILogger<CreateFoodOrderCommandHandler> logger,
+            IMapper mapper, ILogger<FoodOrderService> logger,
             IFoodOrderDetailsRepository foodOrderDetailsRepository,
-            IApplicationDbContext dbContext)
+            IApplicationDbContext dbContext,
+            IFoodOrderInvoice foodOrderInvoice,
+             IPdfGenerateService pdfservice,
+             IEmailSenderService emailSenderService,
+             IDocumentStorageService uploadService
+            )
 
 
         {
@@ -42,7 +53,10 @@ namespace wedeliver.Application.Services.FoodOrderServices
             _foodRepository = foodRepository;
             _foodOrderDetailsRepository = foodOrderDetailsRepository;
             _dbContext = dbContext;
-          
+            _foodOrderInvoice = foodOrderInvoice;
+            _pdfservice = pdfservice;
+            _emailSenderService = emailSenderService;
+            _uploadService = uploadService;
 
         }
 
@@ -98,9 +112,23 @@ namespace wedeliver.Application.Services.FoodOrderServices
 
             var returnFoodOrder = _mapper.Map<FoodOrderVM>(createdFoodOrder);
 
+            var data = await _foodOrderInvoice.process(returnFoodOrder.Id);
+
+            var documentDataByte = await _pdfservice.Create("", data,0);
+
+            var html = await _foodOrderInvoice.GetFoodOrderHtmlContentForEmail(data, request.ClientID);
+
+            await _emailSenderService.SendEmailAsync(html);
+
+            string fileURL = await _uploadService.UploadDocument(documentDataByte);
+
+            await SaveInvoiceDownloadableURL(fileURL, createdFoodOrder.Id);
+
+            // todo : should update fileurl
+
             //var restaurant = await _foodOrderRepository.GetRestaurantDetails(request.RestaurantId);
 
-           // returnFoodOrder.RestaurantName = restaurant.Name;
+            // returnFoodOrder.RestaurantName = restaurant.Name;
             //returnFoodOrder.TelphoneNumber = restaurant.TelphoneNumber;
 
             return returnFoodOrder;
@@ -116,14 +144,14 @@ namespace wedeliver.Application.Services.FoodOrderServices
 
             var foodOrder = await _dbContext.FoodOrder.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-            _dbContext.EntityStateDetached(foodOrder);
+            //_dbContext.EntityStateDetached(foodOrder);
 
             foodOrder.InvoiceUrl = url;
 
-            FoodOrder UpdatedOrder = foodOrder; 
+           // FoodOrder UpdatedOrder = foodOrder; 
 
             // _dbContext.FoodOrder.Remove(foodOrder);
-            _dbContext.FoodOrder.Update(UpdatedOrder);
+            _dbContext.FoodOrder.Update(foodOrder);
 
            // await _dbContext.SaveChangesAsync();
 

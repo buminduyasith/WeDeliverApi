@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Admin\Commands\" />
     <Folder Include="Features\Foods\Queries\TestPdf\" />
     <Folder Include="Features\Foods\ViewModels\" />
   </ItemGroup>
