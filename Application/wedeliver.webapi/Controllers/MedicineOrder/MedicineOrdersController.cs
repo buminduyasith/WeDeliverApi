@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using wedeliver.Application.Features.FoodOrders.Commands.UpdateFoodOrderStatus;
 using wedeliver.Application.Features.MedicineOrders.Commands.CreateMedicineOrder;
 using wedeliver.Application.Features.MedicineOrders.Commands.UpdateMedicineOrderStatus;
+using wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrdersByClientId;
 using wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrdersQuery;
 using wedeliver.Application.ViewModels;
 using wedeliver.webapi.Controllers.Base;
@@ -43,6 +44,16 @@ namespace wedeliver.webapi.Controllers.MedicineOrder
         {
             var result = await Mediator.Send(request);
             return NoContent();
+        }
+
+        [HttpGet("client/{id}/orders", Name = "GetMedicineOrdersByClientIdQuery")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<MedicineOrderVM>>> GetMedicineOrdersByClientId(int id)
+        {
+            var result = await Mediator.Send(new GetMedicineOrdersByClientIdQuery { Id=id});
+            return Ok(result);
         }
 
         
