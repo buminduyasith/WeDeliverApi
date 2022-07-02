@@ -28,8 +28,8 @@ namespace wedeliver.Application.Services.StandedMessage
 
             var message =await MessageResource.CreateAsync(
             body: "Join Earth's mightiest heroes. Like Kevin Bacon.",
-            from: new Twilio.Types.PhoneNumber("+15017122661"),
-            to: new Twilio.Types.PhoneNumber("+15558675310")
+            from: new Twilio.Types.PhoneNumber("+17652663556"),
+            to: new Twilio.Types.PhoneNumber("+94778461152")
             );
 
             var status = message.Status;

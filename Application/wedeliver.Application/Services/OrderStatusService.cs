@@ -68,7 +68,7 @@ namespace wedeliver.Application.Services
 
         public async Task<Unit> updateOrderStatusFromRider(UpdateFoodOrderStatusCommand request)
         {
-            Expression<Func<FoodOrder, bool>> predicate = o => o.Id == request.OrderId && o.RiderId == request.RiderId;
+            Expression<Func<FoodOrder, bool>> predicate = o => o.Id == request.OrderId;
 
             var FoodOrderResult = await GetOrder(predicate);
 
@@ -80,6 +80,7 @@ namespace wedeliver.Application.Services
             _logger.LogInformation("UpdateFoodOrderStatusCommand", FoodOrderResult.ToString());
 
             FoodOrderResult.FoodOrderStatus = request.Status;
+            FoodOrderResult.RiderId = request.RiderId;
 
             _context.FoodOrder.Update(FoodOrderResult);
 

@@ -25,5 +25,6 @@ namespace wedeliver.Application.ViewModels
         public DateTime EstimatedDelivery { get; set; }
         public DateTime OrderDate { get; set; }
         public ShippingDetails ShippingDetails { get; set; }
+        public string ShippingAddress { get; set; }
     }
 }

@@ -31,8 +31,8 @@ namespace wedeliver.Application.Contracts.Persisternce
         public DbSet<StoreOpenTimes> StoreOpenTimes { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<Admin> Admins { get; set; }
-
-
+        public DbSet<OrderReport> OrderReports { get; set; }
+        
 
 
     }

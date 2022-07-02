@@ -47,7 +47,7 @@ namespace wedeliver.Application.Features.FoodOrders.Queries.GetOrdersForRidersBy
 
         public async Task<IEnumerable<FoodOrderVM>> Handle(GetAllOrdersForRiderByRiderIdQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<FoodOrder, bool>> predicate = o => o.FoodOrderStatus == Domain.Enums.FoodOrderStatus.RiderAccepted && o.RiderId == request.RiderId;
+            Expression<Func<FoodOrder, bool>> predicate = o => o.RiderId == request.RiderId;
 
             var query = _context.FoodOrder.Where(predicate);
 

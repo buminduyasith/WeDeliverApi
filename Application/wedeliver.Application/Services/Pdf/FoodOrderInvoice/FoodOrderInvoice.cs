@@ -115,6 +115,7 @@ namespace wedeliver.Application.Services.Pdf.FoodOrderInvoice
 
         public async Task<FoodOrder> GetFoodOrder(Expression<Func<FoodOrder, bool>> predicate)
         {
+            
             var query = _dbContext.FoodOrder.Where(predicate);
 
             await query.Include(x => x.Client)

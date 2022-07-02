@@ -32,7 +32,7 @@ namespace wedeliver.webapi.Controllers.Users
         [HttpPost("register/customer",Name = "CustomerCreate")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<MediatR.Unit>> CustomerCreate([FromBody] CreateCustomerUserCommand command)
+        public async Task<ActionResult<bool>> CustomerCreate([FromBody] CreateCustomerUserCommand command)
         {
 
             return await Mediator.Send(command);

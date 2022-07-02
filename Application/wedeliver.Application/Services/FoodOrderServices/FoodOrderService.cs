@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using wedeliver.Application.Services.Pdf;
 using wedeliver.Application.Services.EmailSenderServices;
 using wedeliver.Application.Services.DocumentUplaod;
+using wedeliver.Application.Services.StandedMessage;
 
 namespace wedeliver.Application.Services.FoodOrderServices
 {
@@ -32,6 +33,7 @@ namespace wedeliver.Application.Services.FoodOrderServices
         private readonly IPdfGenerateService _pdfservice;
         private readonly IEmailSenderService _emailSenderService;
         private readonly IDocumentStorageService _uploadService;
+        private readonly ISendStandardMessageService _sendStandardMessageService;
 
         public FoodOrderService(IFoodOrderRepository foodOrderRepository,
             IFoodRepository foodRepository,
@@ -41,7 +43,8 @@ namespace wedeliver.Application.Services.FoodOrderServices
             IFoodOrderInvoice foodOrderInvoice,
              IPdfGenerateService pdfservice,
              IEmailSenderService emailSenderService,
-             IDocumentStorageService uploadService
+             IDocumentStorageService uploadService,
+             ISendStandardMessageService sendStandardMessageService
             )
 
 
@@ -57,6 +60,7 @@ namespace wedeliver.Application.Services.FoodOrderServices
             _pdfservice = pdfservice;
             _emailSenderService = emailSenderService;
             _uploadService = uploadService;
+            _sendStandardMessageService = sendStandardMessageService;
 
         }
 
@@ -122,7 +126,15 @@ namespace wedeliver.Application.Services.FoodOrderServices
 
             string fileURL = await _uploadService.UploadDocument(documentDataByte);
 
-            await SaveInvoiceDownloadableURL(fileURL, createdFoodOrder.Id);
+
+
+            await _sendStandardMessageService.Send(new StandardMessage { Receiver = "www", Content = "www" });
+            //await SaveInvoiceDownloadableURL(fileURL, createdFoodOrder.Id);
+
+            //await _dbContext.OrderReports.AddAsync(new OrderReport { OrderId = createdFoodOrder.Id, InvoiceUrl = fileURL });
+
+
+          //  await _dbContext.SaveChangesAsync(); 
 
             // todo : should update fileurl
 

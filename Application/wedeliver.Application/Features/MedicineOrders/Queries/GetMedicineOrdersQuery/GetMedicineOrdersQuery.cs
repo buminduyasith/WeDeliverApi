@@ -24,6 +24,7 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
         public bool FilterByStatus { get; set; }
         public Entity Entity { get; set; }
         public MedicineOrderStatus Status { get; set; }
+        public bool? AllOrders { get; set; }
         public Districts DistrictId { get; set; }
     }
 
@@ -50,6 +51,14 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
 
                 var user = await _dbContext.Pharmacies.FindAsync(request.PharmacyId);
 
+                if (request.AllOrders!=null && request.AllOrders==true)
+                {
+                    Expression<Func<MedicineOrder, bool>> predicateAllOrders = o =>  o.ShippingDetails.District == request.DistrictId;
+                    var allMedOrders = await GetMedicineOrder(predicateAllOrders);
+                    var allOrderDTO = _mapper.Map<IEnumerable<MedicineOrderVM>>(allMedOrders);
+                    return allOrderDTO;
+                }
+
                 Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status
                 && o.ShippingDetails.District == request.DistrictId;
                 var orders = await GetMedicineOrder(predicate);
@@ -60,6 +69,19 @@ namespace wedeliver.Application.Features.MedicineOrders.Queries.GetMedicineOrder
             else if(request.RiderId != null && request.Entity == Entity.RIDER)
             {
                 var user = await _dbContext.Riders.FindAsync(request.PharmacyId);
+
+
+
+                if (request.AllOrders != null && request.AllOrders == true)
+                {
+                    Expression<Func<MedicineOrder, bool>> predicateAllOrders = o => o.MedicineOrderStatus != MedicineOrderStatus.Pending &&
+                  o.MedicineOrderStatus != MedicineOrderStatus.ReadyToPickedUpForRider  && o.ShippingDetails.District == request.DistrictId;
+
+                    var allorders = await GetMedicineOrder(predicateAllOrders);
+                    var allorderDTO = _mapper.Map<IEnumerable<MedicineOrderVM>>(allorders);
+                    return allorderDTO;
+                }
+
 
                 Expression<Func<MedicineOrder, bool>> predicate = o => o.MedicineOrderStatus == request.Status
                   && o.ShippingDetails.District == request.DistrictId;

@@ -53,6 +53,10 @@ namespace wedeliver.Application.Mappings
 
             CreateMap<MedicineOrder,MedicineOrderVM>().ReverseMap();
 
+            CreateMap<MedicineOrder, MedicineOrderVM>()
+             .ForMember(dest => dest.ShippingAddress,
+             opt => opt.MapFrom(src => $"{src.ShippingDetails.HouseNo},{src.ShippingDetails.Street},{src.ShippingDetails.City},{src.ShippingDetails.Province.ToString()},{src.ShippingDetails.PostalCode} "));
+
         }
     }
 }
