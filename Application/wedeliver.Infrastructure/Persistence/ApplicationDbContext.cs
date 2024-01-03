@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,11 +49,13 @@ namespace wedeliver.Infrastructure.Persistence
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<OrderReport> OrderReports { get; set; }
+        public DbSet<BookItem> BookItem { get; set; }
+        public DbSet<Author> Author { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-           
+            base.OnModelCreating(builder);
 
         }
 
